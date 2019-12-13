@@ -1,5 +1,3 @@
-import java.util.Random;
-
 public class Monde {
     private int taille, nbNourriture, nbFourmilliere;
     private int tab[][];
@@ -44,8 +42,8 @@ public class Monde {
 
     public void afficher(){
         for(int i=0;i<taille;i++){
-            for(int j=0;i<taille;j++) {
-                System.out.print(tab[i][j]);
+            for(int j=0;j<taille;j++) {
+                //System.out.print(tab[i][j]);
             }
             System.out.println("a");
         }
