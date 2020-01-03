@@ -87,9 +87,8 @@ public class Fourmi {
     //Croiser 2 fourmis
  
     public Fourmi Croisement(Fourmi f) {
-    	int n;
     	Arbre a =null;
-    	n = (int) (Math.random() * 4);
+    	int n = (int) (Math.random() * 4);	//Renvoie un entier aléatoire entre 0 et 3
     	System.out.println(n);
     	switch(n) {
     	case 0:	//On prend le comportement de la fourmi sur laquelle on appelle la fonction et on change son fils gauche par celui de l'autre fourmi
