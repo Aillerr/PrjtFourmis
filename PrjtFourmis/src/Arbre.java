@@ -1,24 +1,31 @@
 
 public class Arbre { //Modifier l'affichage pour que ça soit friendly et qu'on voie bien les comportements
 					//Et aussi implementer la valeur en tant que comportement. Les tests sur les comportements seront pendant un round d'évolution.
-	private int valeur;
+	private Comportements valeur;
 	private Arbre fg, fd;
 	
 	//Constructeurs
 	
-	public Arbre(int val) {
+	public Arbre(Comportements val) {
 		this.valeur=val;
 	}
 	
-	public Arbre(int x, Arbre g, Arbre d) {
+	public Arbre(Comportements x, Arbre g, Arbre d) {
         valeur = x;
         fg = g;
         fd = d;
     }
+
+	
+	public Arbre(Arbre A) {
+		valeur=A.valeur;
+		fg=A.fg;
+		fd=A.fd;
+	}
 	
 	//Get
 	
-	public int getValeur() {
+	public Comportements getNoeud() {
         return(valeur);
     }
 
@@ -28,6 +35,16 @@ public class Arbre { //Modifier l'affichage pour que ça soit friendly et qu'on v
 
     public Arbre getSousArbreDroit() {
         return(fd);
+    }
+    
+    //Set
+    
+    public void setSousArbreGauche(Arbre ng) {
+    	this.fg=ng;
+    }
+    
+    public void setSousArbreDroite(Arbre nd) {
+    	this.fd=nd;
     }
     
     //Affichage de l'arbre
@@ -54,7 +71,7 @@ public class Arbre { //Modifier l'affichage pour que ça soit friendly et qu'on v
      * Affiche l'arbre selon un parcours prefixe
      */
     public void ParcoursPrefixe() {
-	System.out.println(getValeur());
+	System.out.println(getNoeud());
 	if (getSousArbreGauche() != null)
 	    getSousArbreGauche().ParcoursPrefixe();
 	if (getSousArbreDroit() != null)
@@ -67,7 +84,7 @@ public class Arbre { //Modifier l'affichage pour que ça soit friendly et qu'on v
     public void ParcoursInfixe() {
 	if (getSousArbreGauche() != null)
 	    getSousArbreGauche().ParcoursInfixe();
-	System.out.println(getValeur());
+	System.out.println(getNoeud());
 	if (getSousArbreDroit() != null)
 	    getSousArbreDroit().ParcoursInfixe();
     }
@@ -80,29 +97,10 @@ public class Arbre { //Modifier l'affichage pour que ça soit friendly et qu'on v
 	    getSousArbreGauche().ParcoursPostfixe();
 	if (getSousArbreDroit() != null)
 	    getSousArbreDroit().ParcoursPostfixe();
-	System.out.println(getValeur());
+	System.out.println(getNoeud());
     }
     
-    /**
-     * Teste si deux arbres sont egaux, meme valeurs et meme disposition
-     * @param a l'arbre a comparer a b
-     * @param b l'arbre a comparer a a
-     * @return un boolean indiquant si les arbres sont egaux
-     */
-    public static boolean arbresEgaux(Arbre a, Arbre b) {
-	if ((a == null) && (b == null))
-	    return true;
-	if ((a == null) && (b != null))
-	    return false;
-	if ((a != null) && (b == null))
-	    return false;
 
-	// A ce point, a et b != null, on peut acceder a leurs champs
-	if (a.getValeur() != b.getValeur())
-	    return false;
-	return (arbresEgaux(a.getSousArbreGauche(), b.getSousArbreGauche()) 
-		&& arbresEgaux(a.getSousArbreDroit(), b.getSousArbreDroit()));
-    }
     
     /**
      * @param a un arbre
