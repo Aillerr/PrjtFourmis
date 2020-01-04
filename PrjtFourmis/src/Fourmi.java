@@ -100,7 +100,7 @@ public class Fourmi {
         		source = this.comport; 
 
         int rnd = (int) (Math.random() * 4);
-        System.out.println(rnd);
+        //System.out.println(rnd);
         if (rnd >= 2) {							//Si 0 ou 1 on prend le comportement de la fourmi en paramètre, sinon l'autre
             arb = this.comport;
             source = f.getComport();

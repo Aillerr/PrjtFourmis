@@ -5,7 +5,7 @@ public class main {
 		//m.generer();
 		//m.afficher();
 		
-		/* TESTS AXEL, LAISSER COMMENTE POUR QUE CA SOIT PLUS SIMPLE POUR VOUS
+		// TESTS AXEL, COMMENTER POUR QUE CA SOIT PLUS SIMPLE POUR VOUS
 		//Qqs tests pour vérifier les constructeurs et la gestion
 		 
 		Arbre a = new Arbre(Comportements.IS_FOOD, new Arbre(Comportements.RECOLT), new Arbre(Comportements.DEPOSE, new Arbre(Comportements.IS_FOOD), new Arbre(Comportements.GO_UP)));
@@ -25,7 +25,7 @@ public class main {
 		Fourmi f2;
 		f2 = f.Croisement(f1);
 		
-		System.out.println(f2.getNumGeneration());
+		//System.out.println(f2.getNumGeneration());
 		
 		System.out.println();
 		System.out.println(f2.getComport().toString());
@@ -43,7 +43,10 @@ public class main {
 		
 		System.out.println(c.toString());
 		System.out.println();
-		*/
+		
+		
+		//FIN TESTS AXEL
+		
 	}
 	
 

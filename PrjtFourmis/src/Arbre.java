@@ -78,14 +78,14 @@ public class Arbre { //Modifier l'affichage pour que ça soit friendly et qu'on v
     		
     		if(this.sameParentLeft()) {
     			this.fg.valeur=this.fg.fg.valeur;
-    			this.fg.fg.valeur=null;
-    			this.fg.fd.valeur=null;
+    			this.fg.fg=null;
+    			this.fg.fd=null;
     		}
     		
     		if(this.sameParentRight()) {
     			this.fd.valeur=this.fd.fd.valeur;
-    			this.fd.fg.valeur=null;
-    			this.fd.fd.valeur=null;
+    			this.fd.fg=null;
+    			this.fd.fd=null;
     		}
    		
     	}
@@ -93,7 +93,14 @@ public class Arbre { //Modifier l'affichage pour que ça soit friendly et qu'on v
     
      
     //Affichage de l'arbre
-    
+    /*Affichage préfixe : - Racine
+    						-fg
+    							-fg
+    							-fd
+    						-fd
+    							-fg
+    							-fd
+    */
     public String toString () {
         return this.toString("");
     }
