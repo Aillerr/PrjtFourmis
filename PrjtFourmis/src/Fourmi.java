@@ -11,12 +11,18 @@ public class Fourmi {
     	this.score=0;
     	this.numGeneration=n;
     	this.isCarrying=false;
+  
+    	this.comport = new Arbre(75);
     }
     
     public Fourmi(int n, Arbre A) {
     	this(n);
     	this.comport = A;
     }
+    
+    
+    
+    
     
     //Get
     

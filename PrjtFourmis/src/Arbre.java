@@ -14,8 +14,20 @@ public class Arbre { //Modifier l'affichage pour que ça soit friendly et qu'on v
         fg = g;
         fd = d;
     }
-
 	
+	public Arbre(int rate) {
+		
+		int rnd = (int) (Math.random() * (Comportements.values().length-1));
+		this.valeur = Comportements.values()[rnd+1];
+		rnd = (int) (Math.random() * 100);
+		if(this.valeur.isQuestion() && rnd<rate) {
+			this.fg= new Arbre(rate/2);
+			this.fd= new Arbre(rate/2);
+		}
+	}
+	
+
+
 	//Get
 	
 	public Comportements getNoeud() {
@@ -47,7 +59,7 @@ public class Arbre { //Modifier l'affichage pour que ça soit friendly et qu'on v
     //Tests
     
     public boolean isFeuille() {
-    	return (this.fd.valeur==null && this.fg.valeur==null);
+    	return (this.fd==null && this.fg==null);
     }
     
     public boolean sameKids() {
@@ -68,29 +80,52 @@ public class Arbre { //Modifier l'affichage pour que ça soit friendly et qu'on v
       
     public void correctComport() {
     	Comportements comp = this.getNoeud();
-    	if(comp.equals(Comportements.IS_FOOD) || comp.equals(Comportements.IS_HOME)) { //Rajouter les comportements IS_....
-    		
-    		if(this.sameKids()) {
-    			this.valeur=this.fg.valeur;
-    	    	this.fd=null;
-    	    	this.fg=null;
-    		}
-    		
-    		if(this.sameParentLeft()) {
-    			this.fg.valeur=this.fg.fg.valeur;
-    			this.fg.fg=null;
-    			this.fg.fd=null;
-    		}
-    		
-    		if(this.sameParentRight()) {
-    			this.fd.valeur=this.fd.fd.valeur;
-    			this.fd.fg=null;
-    			this.fd.fd=null;
-    		}
-   		
-    	}
-    }
-    
+    	if(comp.isQuestion() && !this.isFeuille()) { 
+
+			if (this.sameKids() && this.fd.isFeuille() && this.fg.isFeuille()) {
+
+				this.valeur = this.fg.valeur;
+				this.fd = null;
+				this.fg = null;
+			} else {
+				if (this.sameParentLeft()) {
+
+					if (this.fg.isFeuille()) {
+						this.fg.valeur = Comportements.NOTHING;
+					} else {
+						this.fg = this.fg.fg;
+						this.fg.fg = null;
+						this.fg.fd = null;
+					}
+
+				}
+				if (this.sameParentRight()) {
+					if (this.fd.isFeuille()) {
+						this.fd.valeur = Comportements.NOTHING;
+					} else {
+						this.fd.valeur = this.fd.fd.valeur;
+						this.fd.fg = null;
+						this.fd.fd = null;
+					}
+				}
+				if (this.sameKids()) {
+
+					this.valeur = this.fg.valeur;
+					this.fd = null;
+					this.fg = null;
+				}
+
+				if (this.fd != null) {
+					this.fd.correctComport();
+				}
+
+				if (this.fg != null) {
+					this.fg.correctComport();
+				}
+			}
+
+		}
+	}
      
     //Affichage de l'arbre
     /*Affichage préfixe : - Racine
@@ -115,6 +150,47 @@ public class Arbre { //Modifier l'affichage pour que ça soit friendly et qu'on v
         + "\n" + indent + "-  " + this.fd.toString(indent + "  ");
     }
 
+    //Comparer
     
+    public boolean compareTo(Arbre abr) {
+
+    	if((this.fd == null && abr.fd != null)
+    			|| (this.fd != null && abr.fd == null)
+        	||(this.fg == null && abr.fg != null) 
+        		|| (this.fg != null && abr.fg == null)
+        	||(this.isFeuille() && !abr.isFeuille())
+        	||(!this.isFeuille() && abr.isFeuille()))   	
+    	{ 
+    		return false;	
+    	}
+    	
+    	//Font la même chose qu'au dessus
+    	/*if(this.fd == null && abr.fd != null)
+    		return false;
+    	if(this.fd != null && abr.fd == null)
+    		return false;
+    	if(this.fg == null && abr.fg != null)
+    		return false;
+    	if(this.fg != null && abr.fg == null)
+    		return false;
+    	if(this.isFeuille() && !abr.isFeuille())
+    		return false;
+    	if(!this.isFeuille() && abr.isFeuille())
+    		return false;
+    	*/
+    	
+    	if(this.isFeuille() && abr.isFeuille()) {
+    		return this.valeur.equals(abr.valeur);
+    	}
+    	
+    	if(this.fg == null && abr.fg == null) {
+    		return (this.valeur.equals(abr.valeur) && this.fd.compareTo(abr.fd));
+    	}else if(this.fd == null && abr.fd == null){
+    		return (this.valeur.equals(abr.valeur) && this.fg.compareTo(abr.fg));
+    	}else {
+    		return (this.valeur.equals(abr.valeur) && this.fd.compareTo(abr.fd) && this.fg.compareTo(abr.fg));
+    	}
+
+    }
 
 }
