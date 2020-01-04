@@ -1,6 +1,5 @@
 
 public class Arbre { //Modifier l'affichage pour que ça soit friendly et qu'on voie bien les comportements
-					//Et aussi implementer la valeur en tant que comportement. Les tests sur les comportements seront pendant un round d'évolution.
 	private Comportements valeur;
 	private Arbre fg, fd;
 	
@@ -16,12 +15,6 @@ public class Arbre { //Modifier l'affichage pour que ça soit friendly et qu'on v
         fd = d;
     }
 
-	
-	public Arbre(Arbre A) {
-		valeur=A.valeur;
-		fg=A.fg;
-		fd=A.fd;
-	}
 	
 	//Get
 	
@@ -39,6 +32,10 @@ public class Arbre { //Modifier l'affichage pour que ça soit friendly et qu'on v
     
     //Set
     
+    public void setNoeud(Comportements comp) {
+    	this.valeur=comp;
+    }
+    
     public void setSousArbreGauche(Arbre ng) {
     	this.fg=ng;
     }
@@ -47,76 +44,70 @@ public class Arbre { //Modifier l'affichage pour que ça soit friendly et qu'on v
     	this.fd=nd;
     }
     
+    //Tests
+    
+    public boolean isFeuille() {
+    	return (this.fd.valeur==null && this.fg.valeur==null);
+    }
+    
+    public boolean sameKids() {
+    	return this.fd.valeur.equals(this.fg.valeur);
+    }
+    
+    public boolean sameParentLeft() {
+    	return this.valeur.equals(this.fg.valeur);
+    }
+    
+    public boolean sameParentRight() {
+    	return this.valeur.equals(this.fd.valeur);
+    }
+    
+    
+    //Corriger l'arbre 
+    
+      
+    public void correctComport() {
+    	Comportements comp = this.getNoeud();
+    	if(comp.equals(Comportements.IS_FOOD) || comp.equals(Comportements.IS_HOME)) { //Rajouter les comportements IS_....
+    		
+    		if(this.sameKids()) {
+    			this.valeur=this.fg.valeur;
+    	    	this.fd=null;
+    	    	this.fg=null;
+    		}
+    		
+    		if(this.sameParentLeft()) {
+    			this.fg.valeur=this.fg.fg.valeur;
+    			this.fg.fg.valeur=null;
+    			this.fg.fd.valeur=null;
+    		}
+    		
+    		if(this.sameParentRight()) {
+    			this.fd.valeur=this.fd.fd.valeur;
+    			this.fd.fg.valeur=null;
+    			this.fd.fd.valeur=null;
+    		}
+   		
+    	}
+    }
+    
+     
     //Affichage de l'arbre
     
-    public String toString() {
-        return toString("\t");
+    public String toString () {
+        return this.toString("");
     }
 
-    public String toString(String s) {
-	if (fg!=null) {
-	if (fd!=null) 
-	    return(s+valeur+"\n"+fg.toString(s+"\t")+fd.toString(s+"\t"));
-	else
-	    return(s+valeur+"\n"+fg.toString(s+"\t")+"\n");
+    public String toString (String indent) {
+        if (this.fg == null && this.fd == null) {
+            return indent + this.valeur;
         }
-        else 
-	if (fd!=null) 
-	    return(s+valeur+"\n\n"+fd.toString(s+"\t"));
-	else
-	    return(s+valeur+"\n");
-    }
 
-   /**
-     * Affiche l'arbre selon un parcours prefixe
-     */
-    public void ParcoursPrefixe() {
-	System.out.println(getNoeud());
-	if (getSousArbreGauche() != null)
-	    getSousArbreGauche().ParcoursPrefixe();
-	if (getSousArbreDroit() != null)
-	    getSousArbreDroit().ParcoursPrefixe();
+        return indent + this.valeur
+        + "\n" + indent + "-  " + this.fg.toString(indent + "  ")
+        + "\n" + indent + "-  " + this.fd.toString(indent + "  ");
     }
-
-   /**
-     * Affiche l'arbre selon un parcours infixe
-     */
-    public void ParcoursInfixe() {
-	if (getSousArbreGauche() != null)
-	    getSousArbreGauche().ParcoursInfixe();
-	System.out.println(getNoeud());
-	if (getSousArbreDroit() != null)
-	    getSousArbreDroit().ParcoursInfixe();
-    }
-
-   /**
-     * Affiche l'arbre selon un parcours postfixe
-     */
-    public void ParcoursPostfixe() {
-	if (getSousArbreGauche() != null)
-	    getSousArbreGauche().ParcoursPostfixe();
-	if (getSousArbreDroit() != null)
-	    getSousArbreDroit().ParcoursPostfixe();
-	System.out.println(getNoeud());
-    }
-    
 
     
-    /**
-     * @param a un arbre
-     * @return la hauteur de l'arbre a
-     */
-    public static int hauteur(Arbre a) {
-	if (a == null)
-	    return 0;
-	else
-	    return (1 + Math.max(hauteur(a.getSousArbreGauche()), hauteur(a.getSousArbreDroit())));
-    }
 
-    /**
-     * @param value la valeur a inserer dans l'arbre
-     */
-    public void insertion(String value) {
-	
-    }
 }

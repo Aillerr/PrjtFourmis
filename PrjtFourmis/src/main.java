@@ -5,22 +5,45 @@ public class main {
 		//m.generer();
 		//m.afficher();
 		
-		
+		/* TESTS AXEL, LAISSER COMMENTE POUR QUE CA SOIT PLUS SIMPLE POUR VOUS
 		//Qqs tests pour vérifier les constructeurs et la gestion
 		 
 		Arbre a = new Arbre(Comportements.IS_FOOD, new Arbre(Comportements.RECOLT), new Arbre(Comportements.DEPOSE, new Arbre(Comportements.IS_FOOD), new Arbre(Comportements.GO_UP)));
 		Arbre b = new Arbre(Comportements.DEPOSE, new Arbre(Comportements.GO_HOME), new Arbre(Comportements.GO_DOWN, new Arbre(Comportements.RECOLT), new Arbre(Comportements.GO_LEFT)));
 		Fourmi f = new Fourmi(1, a);
-		f.getComport().ParcoursPrefixe();
+		
 		System.out.println();
+		System.out.println(f.getComport().toString());
+		System.out.println();
+		
 		Fourmi f1 = new Fourmi(1,b);
-		f1.getComport().ParcoursPrefixe();
+		
 		System.out.println();
+		System.out.println(f1.getComport().toString());
+		System.out.println();
+		
 		Fourmi f2;
 		f2 = f.Croisement(f1);
-		System.out.println(f2.getNumGeneration());
-		f2.getComport().ParcoursPrefixe();
 		
+		System.out.println(f2.getNumGeneration());
+		
+		System.out.println();
+		System.out.println(f2.getComport().toString());
+		System.out.println();
+		
+		//f.getComport().correctComport();
+		System.out.println();
+		
+		Arbre c = new Arbre(Comportements.IS_FOOD, new Arbre(Comportements.IS_FOOD, new Arbre(Comportements.GO_DOWN),  new Arbre(Comportements.GO_UP)), new Arbre(Comportements.DEPOSE));
+		System.out.println(c.toString());
+		System.out.println();
+		
+		//System.out.println(c.sameKids());
+		c.correctComport();
+		
+		System.out.println(c.toString());
+		System.out.println();
+		*/
 	}
 	
 
