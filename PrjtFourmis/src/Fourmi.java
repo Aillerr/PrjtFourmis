@@ -4,8 +4,17 @@ public class Fourmi {
     private int numGeneration;
     private Arbre comport;
     private boolean isCarrying;
+    private static final int nbActions = 60;
     
     //Constructeurs
+    
+    public Fourmi() {
+    	this.score=0;
+    	this.numGeneration=1;
+    	this.isCarrying=false;
+  
+    	this.comport = new Arbre(75);
+    }
     
     public Fourmi(int n) {
     	this.score=0;
@@ -21,9 +30,6 @@ public class Fourmi {
     }
     
     
-    
-    
-    
     //Get
     
     public int getNumGeneration() {
@@ -34,71 +40,14 @@ public class Fourmi {
     	return this.comport;
     }
     
-    //Action d'une fourmi
-    
-    public void ActionFourmi() {
-    	boolean finAction = false;
-    	Arbre A = comport;
-    	while(!finAction) {
-    		
-    	Comportements c = comport.getNoeud();
-    	switch(c) {
-    	case GO : 
-    		//Va dans une direction aléatoire (chiffre aléatoire entre 0 et3, chacun une direction
-    		finAction=true;
-    		break;
-    	case GO_LEFT : 
-    		//Va à gauche
-    		finAction=true;
-    		break;
-    	case GO_RIGHT : 
-    		//Va à droite
-    		finAction=true;
-    		break;
-    	case GO_UP : 
-    		//Va en haut
-    		finAction=true;
-    		break;
-    	case GO_DOWN : 
-    		//Va en bas
-    		finAction=true;
-    		break;
-    	case RECOLT :
-    		//Si il y a de la nourriture
-    			//Prend la nourriture : éditer la map pour l'enlever
-    			//Ajouter du score (A pris de la nourriture)
-    			isCarrying = true;
-    		finAction=true;
-    		break;
-    	case DEPOSE :
-    		//Si elle est sur la fourmilière
-    			//Ajouter du score (A ramené de la nourriture)
-    		isCarrying = false;
-    		finAction=true;
-    		break;
-    	case GO_HOME :
-    		//Se déplace dans la direction de la fourmilière (la plus proche)
-    		finAction=true;
-    		break;
-    	case IS_FOOD :
-    		//Si y'a de la bouffe sur la case
-    			A = A.getSousArbreGauche();
-			//Sinon
-				A = A.getSousArbreDroit();
-    		break;
-    	case IS_HOME :
-    		//Si la case est une fourmilière
-    			A = A.getSousArbreGauche();
-			//Sinon
-    			A = A.getSousArbreDroit();
-    		break;
-    	default : //Les cas où on aura modifié les arbres et y'aura du null, ça fait rien et ça termine l'action
-    		finAction=true;
-    		break;
-    	}
-    	}
+    public static int getNbActions() {
+    	return nbActions;
     }
     
+    public boolean getCarrying() {
+    	return isCarrying;
+    }
+    //Action d'une fourmi        
     //Croiser 2 fourmis
  
     public Fourmi Croisement (Fourmi f) {
@@ -118,5 +67,13 @@ public class Fourmi {
             arb.setSousArbreDroite(source.getSousArbreDroit());	//Sinon le fils droit
 
         return (new Fourmi(f.getNumGeneration() + 1, arb));
+    }
+    
+    public int getScore() {
+    	return score;
+    }
+    
+    public void setIsCarrying(boolean b) {
+    	isCarrying = b;
     }
 }
