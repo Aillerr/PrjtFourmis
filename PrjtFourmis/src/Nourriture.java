@@ -1,29 +1,20 @@
 
-public class Nourriture {
-	private int quantite,positionX,positionY;
+public class Nourriture extends Case{
+	private int quantite;
 	
-	public Nourriture (int quantite) {
+	public Nourriture (int quantite, char val) {
+		super(val);
 		this.quantite = quantite;
 	}
 	
-	public void setPositionX(int positionX) {
-		this.positionX = positionX;
-	}
 	
-	public void setPositionY(int positionY) {
-		this.positionY = positionY;
-	}
-	
-	public int getPositionX() {
-		return positionX;
-	}
-	
-	public int getPositionY() {
-		return positionY;
-	}
 
 	public int getQuantite() {
 		return quantite;
+	}
+	
+	public void setQuantite(int i) {
+		quantite = i;
 	}
 
 }
