@@ -79,9 +79,10 @@ public class Moteur {
 			for (int i=1;i<= generation;i++) {
 				m.generer();
 				
-				//Création de fourmis
 				
-				for(int j=1; j <= tabFourmi.length; j++) {
+				
+				for(int j=1; j <= nbFourmi; j++) {
+					this.tabFourmi[j] = new Fourmi(); 
 					
 					while (Fourmi.getNbActions() !=0) {
 						ActionFourmi(tabFourmi[j]);

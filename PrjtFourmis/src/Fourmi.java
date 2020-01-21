@@ -17,11 +17,9 @@ public class Fourmi {
     }
     
     public Fourmi(int n) {
-    	this.score=0;
-    	this.numGeneration=n;
-    	this.isCarrying=false;
-  
-    	this.comport = new Arbre(75);
+    	this();
+    	
+    	this.numGeneration=n;	
     }
     
     public Fourmi(int n, Arbre A) {
