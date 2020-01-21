@@ -83,9 +83,11 @@ public class Moteur {
 				
 				for(int j=1; j <= nbFourmi; j++) {
 					this.tabFourmi[j] = new Fourmi(); 
-					
-					while (Fourmi.getNbActions() !=0) {
+					int nbactions = Fourmi.getNbActions();
+					while (nbactions !=0) {
 						ActionFourmi(tabFourmi[j]);
+						nbactions--;
+						
 					}
 				}
 			}

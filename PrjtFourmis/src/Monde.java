@@ -51,15 +51,20 @@ public class Monde {
     }
 
     public void afficher(){
-        for(int i=0;i<taille;i++){
-            for(int j=0;j<taille;j++) {
-                System.out.print(tab[i][j]);
-                System.out.print("   ");
+        for(int row=0;row<taille;++row){      	
+            for(int col=0;col<taille;++col) {
+            	if(tab[row][col] != "R") System.out.print(tab[row][col]);
+            	else System.out.print(" ");
+                if(col<taille-1) System.out.print("   |   ");
             }
             System.out.println();
+            if(row<taille-1) System.out.println("-------------------------------------");
 
         }
     }
+    
+    
+    
     
     public String getCase(int x,int y) {
     	return tab[x][y];
@@ -76,5 +81,7 @@ public class Monde {
     public void setAction (int nbAction) {
     	this.nbAction = nbAction;
     }
+    
+    
 
 }

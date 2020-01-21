@@ -45,6 +45,24 @@ public class Fourmi {
     public boolean getCarrying() {
     	return isCarrying;
     }
+    
+    public int getScore() {
+    	return score;
+    }
+
+    
+    //Set
+
+    
+    public void setScore(int i) {
+    	this.score += i;
+    }
+    
+    public void setIsCarrying(boolean b) {
+    	isCarrying = b;
+    }
+
+    
     //Action d'une fourmi        
     //Croiser 2 fourmis
  
@@ -67,11 +85,4 @@ public class Fourmi {
         return (new Fourmi(f.getNumGeneration() + 1, arb));
     }
     
-    public int getScore() {
-    	return score;
-    }
-    
-    public void setIsCarrying(boolean b) {
-    	isCarrying = b;
-    }
 }
