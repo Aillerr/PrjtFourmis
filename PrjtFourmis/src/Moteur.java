@@ -15,27 +15,33 @@ public class Moteur {
 	    	boolean finAction = false;
 	    	Arbre A = f.getComport();
 	    	while(!finAction) {
-	    		
+	    	int rnd = (int) (Math.random() * 4);	
 	    	Comportements c = A.getNoeud();
 	    	switch(c) {
 	    	case GO : 
-	    		//Va dans une direction aléatoire (chiffre aléatoire entre 0 et3, chacun une direction
-	    		finAction=true;
-	    		break;
+	            continue;
 	    	case GO_LEFT : 
-	    		//Va à gauche
+	    		if(c.equals(Comportements.GO_LEFT) || (rnd == 0)) {
+	    			//Va à gauche
+	    		}
 	    		finAction=true;
 	    		break;
 	    	case GO_RIGHT : 
-	    		//Va à droite
+	    		if(c.equals(Comportements.GO_RIGHT) || (rnd == 1)) {
+	    			//Va à droite
+	    		}
 	    		finAction=true;
 	    		break;
 	    	case GO_UP : 
-	    		//Va en haut
+	    		if(c.equals(Comportements.GO_UP) || (rnd == 2)) {
+	    			//Va en haut
+	    		}
 	    		finAction=true;
 	    		break;
-	    	case GO_DOWN : 
-	    		//Va en bas
+	    	case GO_DOWN :
+	    		if(c.equals(Comportements.GO_DOWN) || (rnd == 3)) {
+	    			//Va en bas
+	    		}
 	    		finAction=true;
 	    		break;
 	    	case RECOLT :
