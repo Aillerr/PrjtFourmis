@@ -1,10 +1,15 @@
+import java.io.IOException;
 public class main {
-	public static void main (String []args)
+	public static void main (String []args) throws IOException
 	{
-		//Monde m = new Monde (20,10,5);
-		//m.generer();
-		//m.afficher();
-		
+		Monde m = new Monde (20,10,5);
+		m.generer();
+		m.afficher();
+		m.download("C:\\Users\\loko6\\OneDrive\\Bureau\\","fichiermonde.txt");
+
+		Monde g = new Monde ("C:\\Users\\loko6\\OneDrive\\Bureau\\fichiermonde.txt");
+
+
 		// TESTS AXEL, COMMENTER POUR QUE CA SOIT PLUS SIMPLE POUR VOUS
 		//Qqs tests pour vérifier les constructeurs et la gestion
 		/*
@@ -46,7 +51,7 @@ public class main {
 		System.out.println();
 		
 		System.out.println(Comportements.GO.ordinal());
-		*/
+
 		for(int i=0; i<100; i++) {
 			System.out.println("============================");
 			System.out.println("Arbre : " + i );
@@ -57,7 +62,7 @@ public class main {
 			System.out.println();
 			System.out.println(abr.toString());
 		}
-		
+		*/
 		
 		/*
 		System.out.println("============================");
