@@ -34,7 +34,6 @@ public class Monde {
     }
 
     public Monde(int taille){ // monde vide
-    public Monde(int taille){
     	tab = new Case [taille][taille];
         for(int i=0;i<taille;i++){
             for(int j=0;j<taille;j++){
@@ -48,59 +47,56 @@ public class Monde {
 
     /**
      * Génération d'un nouveau monde à partir d'un fichier
-     * @param fichier
+     * @param
      * @throws IOException
      */
     public Monde(String fichier) throws IOException{
         BufferedReader lecteur = new BufferedReader(new FileReader(fichier));
         String line =lecteur.readLine();
-        String[] line_spl = line.split("");
-        tab = new int [line_spl.length][line_spl.length];
-        for(int j =0 ; j<line_spl.length; j++ ) {
-            tab[0][j] = Integer.parseInt(line_spl[j]);
-            if (tab[0][j] == 1) {
-                nbNourriture++;
-            } else if (tab[0][j] == 2) {
-                nbFourmilliere++;
-            }
-            int i = 0;
-            while ((line = lecteur.readLine()) != null) {
-                System.out.println("line " + i + " : " + line);
-                line_spl = line.split("");
-                for (j = 0; j < line_spl.length; j++) {
-                    tab[i][j] = Integer.parseInt(line_spl[j]);
-                    if (tab[i][j] == 1) {
-                        nbNourriture++;
-                    } else if (tab[i][j] == 2) {
+        taille =line.length()/8;
+        Monde m = new Monde(taille);
+        for (int y = 2; y<=taille*2+1; y++){
+            line =lecteur.readLine();
+            if(y%2 == 0){
+                int row = y/2 -1 ;
+                line = line.substring(4,line.length()-4);
+                String[] line_spl  = line.split("\\s{3}\\|\\s{3}"); //Split ("   |   ")
+                for(int col = 0; col<line_spl.length;col++){
+                    if(line_spl[col].compareTo("F") == 0) {
+                        m.tab[row][col] = new Fourmiliere(0, 'F');
                         nbFourmilliere++;
                     }
+                    else if(line_spl[col].compareTo("F") != 0 && line_spl[col].compareTo(" ") != 0){
+                        try{
+                            int nbNour = Integer.parseInt(line_spl[col]);
+                            m.tab[row][col] = new Nourriture(nbNour,'N');
+                            nbNourriture++;
+                        }catch (java.lang.NumberFormatException e){
+                            System.out.println("Objet non reconnue ! x ="+ row + "y =  "+ y +": !" + line_spl[col]+"! ");
+                        }
+                     }
                 }
-                i++;
             }
-            taille = i;
         }
+        this.tab = m.tab;
     }
 
     public void generer(){
-
-        while (!(nbNourriture == 0 && nbFourmilliere == 0)) {
-
+        int nbCountNour = nbNourriture;
+        int nbCountFour = nbFourmilliere;
+        while (!(nbCountNour == 0 && nbCountFour == 0)) {
             int x=(int) (Math.random()*taille);
             int y=(int) (Math.random()*taille);
-            int z = (int) (Math.random()*9);
-
+            int z = (int) (Math.random()*nbCountNour)+1;
 
             if (tab[x][y].getValue() == 'R'){
-
-                if (nbNourriture == 0){
+                if (nbCountNour == 0){
                     tab[x][y] = new Fourmiliere(0,'F');
-                    nbFourmilliere--;
-
+                    nbCountFour--;
                 }
-                else {
-                    tab[x][y] = new Nourriture(z+1, 'N');
-                    nbNourriture--;
-
+                else{
+                    tab[x][y] = new Nourriture(z, 'N');
+                    nbCountNour -= z;
                 }
             }
         }
@@ -108,22 +104,50 @@ public class Monde {
     }
 
     public void afficher(){
-        for(int row=0;row<taille;++row){
-            for(int col=0;col<taille;++col) {
+        String ligne_sep = "";
+        for(int i = 0; i<8*taille+1 ;i++){
+            ligne_sep += "-";
+        }
+        System.out.println(ligne_sep);
+        for(int row=0;row<taille;row++){
+            System.out.print("|   ");
+            for(int col=0;col<taille;col++) {
             	if(tab[row][col].getValue() != 'R') tab[row][col].afficherCase();
             	else System.out.print(" ");
                 if(col<taille-1) System.out.print("   |   ");
             }
-            System.out.println();
-            if(row<taille-1) System.out.println("-------------------------------------");
-
+            System.out.println("   |");
+            System.out.println(ligne_sep);
         }
     }
 
+    public void download(String path,String filename)throws IOException {
+        PrintWriter writer = new PrintWriter(path+"\\"+filename+".txt", "UTF-8");
 
-
-
-
+        String ligne_sep = "";
+        for(int i = 0; i<8*taille+1 ;i++){
+            ligne_sep += "-";
+        }
+        writer.println(ligne_sep);
+        for(int row=0;row<taille;row++){
+            writer.print("|   ");
+            for(int col=0;col<taille;col++) {
+                if(tab[row][col].getValue() != 'R'){
+                    if(tab[row][col].getValue() == 'F')
+                        writer.print('F');
+                    else if(tab[row][col].getValue() == 'N'){
+                        Nourriture nour_case = (Nourriture) tab[row][col]; //downcast pour récupérer le nombre de nourriture sur la case;
+                        writer.print(nour_case.getQuantite());
+                    }
+                }
+                else writer.print(" ");
+                if(col<taille-1) writer.print("   |   ");
+            }
+            writer.println("   |");
+            writer.println(ligne_sep);
+        }
+        writer.close();
+    }
 
     public int getNbNourriture () {
     	return nbNourriture;
@@ -142,17 +166,6 @@ public class Monde {
     }
 
 
-
-    public void download(String path,String filename)throws IOException {
-        PrintWriter writer = new PrintWriter(path+filename, "UTF-8");
-        for (int i = 0; i < taille; i++) {
-            for (int j = 0; j < taille; j++) {
-                writer.print(tab[i][j]);
-            }
-            writer.println();
-        }
-        writer.close();
-    }
 
 
 }

@@ -2,9 +2,9 @@
 public class Fourmiliere extends Case{
 	private int nbNourrStock;
 	
-	public Fourmiliere(int nb, char val) {
+	public Fourmiliere(int nbNourrStock, char val) {
 		super(val);
-		nbNourrStock = nb;
+		this.nbNourrStock = nbNourrStock;
 	}
 	
 	public int getNourr() {
