@@ -164,7 +164,41 @@ public class Monde {
     public Case getTable(int i, int j) {
     	return this.tab[i][j];
     }
+    
+    public boolean estNourriture (int x, int y) {
+    	if (tab[x][y] instanceof Nourriture) {
+    		return true;
+    	}
+    	return false;
+    }
+    
+    public boolean estFourmiliere (int x, int y) {
+    	if (tab[x][y] instanceof Fourmiliere) {
+    		return true;
+    	}
+    	return false;
+    }
+    
+    public int[][] recupFourmiliere (Fourmi f) {
+    	int tableau[][] = new int[nbFourmilliere][3];
+    	int ligne =0;
+    	int colonne =0;
+    	for (int i=0;i<taille;i++) {
+    		for (int j=0;j<taille;i++) {
+    			if (estFourmiliere(i,j)) {
+    				tableau[ligne][colonne] = i; 
+    				tableau[ligne][colonne++] = j; 
+    				tableau[ligne][colonne++] = (Math.abs(i-f.getPositionX()) + Math.abs(j-f.getPositionY())); 
+    			}
+    			ligne++;
+    		}
+    	}
+    	return tableau;
+    }
 
+    //public Fourmiliere recupFourmiliereLaPlusProche() {
+    	
+    //}
 
 
 
