@@ -152,6 +152,10 @@ public class Monde {
     public int getNbNourriture () {
     	return nbNourriture;
     }
+    
+    public int getNbFourmiliere() {
+    	return nbFourmilliere;
+    }
 
     public int getNbAction() {
     	return nbAction;
@@ -182,23 +186,41 @@ public class Monde {
     public int[][] recupFourmiliere (Fourmi f) {
     	int tableau[][] = new int[nbFourmilliere][3];
     	int ligne =0;
-    	int colonne =0;
-    	for (int i=0;i<taille;i++) {
-    		for (int j=0;j<taille;i++) {
+    	for (int i=0;i<taille;i++) {    		
+    		for (int j=0;j<taille;j++) {       		
     			if (estFourmiliere(i,j)) {
-    				tableau[ligne][colonne] = i; 
-    				tableau[ligne][colonne++] = j; 
-    				tableau[ligne][colonne++] = (Math.abs(i-f.getPositionX()) + Math.abs(j-f.getPositionY())); 
+    				tableau[ligne][0] = i; 
+    				tableau[ligne][1] = j; 
+    				tableau[ligne][2] = (Math.abs(i-f.getPositionX()) + Math.abs(j-f.getPositionY())); 
+    				
+        			ligne++;
     			}
-    			ligne++;
     		}
+    		
     	}
     	return tableau;
     }
 
-    //public Fourmiliere recupFourmiliereLaPlusProche() {
+    public void recupFourmiliereLaPlusProche(Fourmi f, Case c) {
+    	int temp=0;
+    	int tabFourm[][] = recupFourmiliere(f);
+    	System.out.println("distance "+ tabFourm[temp][2]);
+    	for(int i=1;i<nbFourmilliere;i++) {
+    		System.out.println("============================");
+    		System.out.println("distance "+ tabFourm[i][2]);
+
+    		if(tabFourm[temp][2] > tabFourm[i][2]) {
+    			temp=i;
+    		}
+    		
+    	}
+    	System.out.println("temp "+ tabFourm[temp][0] + " "+tabFourm[temp][1]);
+    	int x=tabFourm[temp][0];
+    	int y =tabFourm[temp][1];
+    	c.setCol(y);
+    	c.setRow(x);;
     	
-    //}
+    }
 
 
 
