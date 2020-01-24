@@ -22,25 +22,27 @@ public class Moteur {
 	            continue;
 	    	case GO_LEFT : 
 	    		if(c.equals(Comportements.GO_LEFT) || (rnd == 0)) {
-	    			//Va à gauche
+	    			f.setPositionY(f.getPositionY()-1);
+	    			finAction=true;
+		    		break;
 	    		}
-	    		finAction=true;
-	    		break;
+	    		continue;
 	    	case GO_RIGHT : 
 	    		if(c.equals(Comportements.GO_RIGHT) || (rnd == 1)) {
-	    			//Va à droite
+	    			f.setPositionY(f.getPositionY()+1);
+	    			finAction=true;
+		    		break;
 	    		}
-	    		finAction=true;
-	    		break;
+	    		continue;
 	    	case GO_UP : 
 	    		if(c.equals(Comportements.GO_UP) || (rnd == 2)) {
-	    			//Va en haut
+	    			f.setPositionX(f.getPositionX()+1);
+	    			finAction=true;
+		    		break;
 	    		}
-	    		finAction=true;
-	    		break;
 	    	case GO_DOWN :
 	    		if(c.equals(Comportements.GO_DOWN) || (rnd == 3)) {
-	    			//Va en bas
+	    			f.setPositionX(f.getPositionX()+1);
 	    		}
 	    		finAction=true;
 	    		break;

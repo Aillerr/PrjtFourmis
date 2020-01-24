@@ -14,7 +14,8 @@ public class Fourmi {
     	this.score=0;
     	this.numGeneration=1;
     	this.isCarrying=false;
-  
+    	this.positionX=0;
+    	this.positionY=0;
     	this.comport = new Arbre(75);
     }
     

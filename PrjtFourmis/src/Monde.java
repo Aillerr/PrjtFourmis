@@ -120,6 +120,29 @@ public class Monde {
             System.out.println(ligne_sep);
         }
     }
+    
+    public void afficher(Fourmi f){
+        String ligne_sep = "";
+        for(int i = 0; i<8*taille+1 ;i++){
+            ligne_sep += "-";
+        }
+        System.out.println(ligne_sep);
+        for(int row=0;row<taille;row++){
+            System.out.print("|  ");
+            for(int col=0;col<taille;col++) {
+            	if(tab[row][col].getValue() != 'R') {
+            		if(f.getPositionX()==row && f.getPositionY()==col) {
+            			System.out.print("A + ");
+            		}
+            		tab[row][col].afficherCase();
+            	}else if(f.getPositionX()==row && f.getPositionY()==col) System.out.print("A");
+            		System.out.print(" ");
+                if(col<taille-1) System.out.print("   |   ");
+            }
+            System.out.println("   |");
+            System.out.println(ligne_sep);
+        }
+    }
 
     public void download(String path,String filename)throws IOException {
         PrintWriter writer = new PrintWriter(path+"\\"+filename+".txt", "UTF-8");
@@ -191,12 +214,10 @@ public class Monde {
     			if (estFourmiliere(i,j)) {
     				tableau[ligne][0] = i; 
     				tableau[ligne][1] = j; 
-    				tableau[ligne][2] = (Math.abs(i-f.getPositionX()) + Math.abs(j-f.getPositionY())); 
-    				
+    				tableau[ligne][2] = (Math.abs(i-f.getPositionX()) + Math.abs(j-f.getPositionY()));   				
         			ligne++;
     			}
-    		}
-    		
+    		}    		
     	}
     	return tableau;
     }
@@ -206,13 +227,9 @@ public class Monde {
     	int tabFourm[][] = recupFourmiliere(f);
     	System.out.println("distance "+ tabFourm[temp][2]);
     	for(int i=1;i<nbFourmilliere;i++) {
-    		System.out.println("============================");
-    		System.out.println("distance "+ tabFourm[i][2]);
-
     		if(tabFourm[temp][2] > tabFourm[i][2]) {
     			temp=i;
     		}
-    		
     	}
     	System.out.println("temp "+ tabFourm[temp][0] + " "+tabFourm[temp][1]);
     	int x=tabFourm[temp][0];
