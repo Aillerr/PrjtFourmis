@@ -93,10 +93,10 @@ public class Fourmi {
 		if (!m.estFourmiliere(positionX, positionY)) {
 			if (caseY != y) {
 				if (caseY > y) {
-					if ((caseY + y) / m.getTaille() > 0.5) {
+					if (caseY / m.getTaille() > 0.5) {
 						//while (nbAction != 0 && caseY != y) {
 							y--;
-							if (y == 0) {
+							if (y <= 0) {
 								y = m.getTaille() - 1;
 							}
 							setPositionY(y);
@@ -115,11 +115,11 @@ public class Fourmi {
 						//}
 					}
 				} else {
-					if ((caseY + y) / m.getTaille() > 0.5) {
+					if (caseY/ m.getTaille() > 0.5) {
 						//while (nbAction != 0 && caseY != y) {
-							y++;
-							if (y == m.getTaille()) {
-								y = 0;
+							y--;
+							if (y <= 0) {
+								y = m.getTaille() - 1;
 							}
 							setPositionY(y);
 							//nbAction--;
@@ -127,9 +127,9 @@ public class Fourmi {
 						//}
 					} else {
 						//while (nbAction != 0 && caseY != y) {
-							y--;
-							if (y == 0) {
-								y = m.getTaille() - 1;
+							y++;
+							if (y == m.getTaille()) {
+								y = 0;
 							}
 							setPositionY(y);
 							//nbAction--;
@@ -140,10 +140,10 @@ public class Fourmi {
 				}
 			} else if (caseX != x) {
 				if (caseX > x) {
-					if ((caseX + x) / m.getTaille() > 0.5) {
+					if (caseX / m.getTaille() > 0.5) {
 						//while (nbAction != 0 && caseX != x) {
 							x--;
-							if (x == 0) {
+							if (x <= 0) {
 								x = m.getTaille() - 1;
 							}
 							setPositionX(x);
@@ -162,7 +162,7 @@ public class Fourmi {
 						//}
 					}
 				} else {
-					if ((caseX + x) / m.getTaille() > 0.5) {
+					if (caseX/ m.getTaille() > 0.5) {
 						//while (nbAction != 0 && caseX != x) {
 							x++;
 							if (x == m.getTaille()) {
