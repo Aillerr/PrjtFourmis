@@ -6,7 +6,7 @@ public class Fourmi {
 	private int positionY;
 	private Arbre comport;
 	private boolean isCarrying;
-	private static int nbActions = 5;
+	private static int nbActions = 10;
 
 	// Constructeurs
 
@@ -16,7 +16,7 @@ public class Fourmi {
 		this.isCarrying = false;
 		this.positionX = 0;
 		this.positionY = 0;
-		this.comport = new Arbre(75);
+		this.comport = new Arbre(100);
 	}
 
 	public Fourmi(int n) {
@@ -67,15 +67,15 @@ public class Fourmi {
 	}
 
 	public void setIsCarrying(boolean b) {
-		isCarrying = b;
+		this.isCarrying = b;
 	}
 
 	public void setPositionX(int x) {
-		positionX = x;
+		this.positionX = x;
 	}
 
 	public void setPositionY(int y) {
-		positionY = y;
+		this.positionY = y;
 	}
 
 	public static void setNbActions(int nb) {
@@ -90,105 +90,31 @@ public class Fourmi {
 		int y = getPositionY();
 		int caseX = ca.getRow();
 		int caseY = ca.getCol();
-		if (!m.estFourmiliere(positionX, positionY)) {
-			if (caseY != y) {
-				if (caseY > y) {
-					if (caseY / m.getTaille() > 0.5) {
-						//while (nbAction != 0 && caseY != y) {
-							y--;
-							if (y <= 0) {
-								y = m.getTaille() - 1;
-							}
-							setPositionY(y);
-							//nbAction--;
-							//setNbActions(nbAction);
-						//}
-					} else {
-						//while (nbAction != 0 && caseY != y) {
-							y++;
-							if (y == m.getTaille()) {
-								y = 0;
-							}
-							setPositionY(y);
-							//nbAction--;
-							//setNbActions(nbAction);
-						//}
-					}
-				} else {
-					if (caseY/ m.getTaille() > 0.5) {
-						//while (nbAction != 0 && caseY != y) {
-							y--;
-							if (y <= 0) {
-								y = m.getTaille() - 1;
-							}
-							setPositionY(y);
-							//nbAction--;
-							//setNbActions(nbAction);
-						//}
-					} else {
-						//while (nbAction != 0 && caseY != y) {
-							y++;
-							if (y == m.getTaille()) {
-								y = 0;
-							}
-							setPositionY(y);
-							//nbAction--;
-							//setNbActions(nbAction);
-						//}
-					}
-
-				}
-			} else if (caseX != x) {
-				if (caseX > x) {
-					if (caseX / m.getTaille() > 0.5) {
-						//while (nbAction != 0 && caseX != x) {
-							x--;
-							if (x <= 0) {
-								x = m.getTaille() - 1;
-							}
-							setPositionX(x);
-							//nbAction--;
-							//setNbActions(nbAction);
-						//}
-					} else {
-						//while (nbAction != 0 && caseX != x) {
-							x++;
-							if (x == m.getTaille()) {
-								x = 0;
-							}
-							setPositionX(x);
-							//nbAction--;
-							//setNbActions(nbAction);
-						//}
-					}
-				} else {
-					if (caseX/ m.getTaille() > 0.5) {
-						//while (nbAction != 0 && caseX != x) {
-							x++;
-							if (x == m.getTaille()) {
-								x = 0;
-							}
-							setPositionX(x);
-							//nbAction--;
-							//setNbActions(nbAction);
-						//}
-					} else {
-						//while (nbAction != 0 && caseX != x) {
-							x--;
-							if (x == 0) {
-								x = m.getTaille() - 1;
-							}
-							setPositionX(x);
-							//nbAction--;
-							//setNbActions(nbAction);
-						//}
-					}
-
-				}
+		if (caseY != y) {
+			if (caseY > y) {
+				y++;
+				setPositionY(y);
+			}
+			else if (caseY < y){
+				y--;
+				setPositionY(y);
 			}
 		}
+		else if (caseX != x) {
+			if (caseX > x) {
+				x++;
+				setPositionX(x);
+			}
+			else if (caseX < x){
+				x--;
+				setPositionX(x);
+			}
+		}				
 	}
-
+					
+					
+					
+					
 	// Action d'une fourmi
 	public void ActionFourmi(Monde m) {
 		boolean finAction = false;
@@ -265,25 +191,36 @@ public class Fourmi {
 				finAction = true;
 				break;
 			case GO_HOME:
-				goHome(m);
-				finAction = true;
+				if (getCarrying() && !m.estFourmiliere(positionX, positionY)) {
+					this.goHome(m);
+					finAction = true;
+				}
+				else {
+					A = A.getSousArbreGauche();
+					continue;
+				}
 				break;
+				
 			case IS_FOOD:
 				if (!A.isFeuille()) {
-					if (m.estNourriture(positionX, positionY)) {
+					if (m.estNourriture(positionX, positionY) && !getCarrying()) {
 						A = A.getSousArbreGauche();
+						continue;
 					} else {
 						A = A.getSousArbreDroit();
+						continue;
 					}
 				}
 				finAction = true;
 				break;
 			case IS_HOME:
 				if (!A.isFeuille()) {
-					if (m.estFourmiliere(positionX, positionY)) {
+					if (m.estFourmiliere(positionX, positionY) && getCarrying()) {
 						A = A.getSousArbreGauche();
+						continue;
 					} else {
 						A = A.getSousArbreDroit();
+						continue;
 					}
 				} else
 					finAction = true;

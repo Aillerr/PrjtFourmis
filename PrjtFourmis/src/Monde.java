@@ -88,7 +88,7 @@ public class Monde {
 		while (!(nbCountNour == 0 && nbCountFour == 0)) {
 			int x = (int) (Math.random() * taille);
 			int y = (int) (Math.random() * taille);
-			int z = (int) (Math.random() * nbCountNour) + 1;
+			int z = (int) (Math.random()*9);
 
 			if (tab[x][y].getValue() == 'R') {
 				if (nbCountNour == 0) {
@@ -96,7 +96,7 @@ public class Monde {
 					nbCountFour--;
 				} else {
 					tab[x][y] = new Nourriture(z, 'N');
-					nbCountNour -= z;
+					nbCountNour--;
 				}
 			}
 		}
@@ -212,16 +212,18 @@ public class Monde {
 	}
 
 	public boolean estNourriture(int x, int y) {
-		if (tab[x][y] instanceof Nourriture) {
-			return true;
-		}
+			if (tab[x][y].getValue() == 'N' || tab[x][y].getValue() == 'A' + '+' + 'N') {
+				return true;
+			}
 		return false;
+
 	}
 
 	public boolean estFourmiliere(int x, int y) {
-		if (tab[x][y] instanceof Fourmiliere) {
-			return true;
-		}
+			if (tab[x][y].getValue() == 'F' || tab[x][y].getValue() == 'A' + '+' + 'F') {
+				return true;
+			}
+		
 		return false;
 	}
 

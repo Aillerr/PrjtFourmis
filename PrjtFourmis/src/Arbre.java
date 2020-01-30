@@ -21,8 +21,8 @@ public class Arbre { //Modifier l'affichage pour que ça soit friendly et qu'on v
 		this.valeur = Comportements.values()[rnd+1];
 		rnd = (int) (Math.random() * 100);
 		if(this.valeur.isQuestion() && rnd<rate) {
-			this.fg= new Arbre(rate/2);
-			this.fd= new Arbre(rate/2);
+			this.fg= new Arbre(rate);// /2
+			this.fd= new Arbre(rate);// /2
 		}
 	}
 	

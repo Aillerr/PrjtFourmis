@@ -1,7 +1,7 @@
 
 public class Moteur {
 	private Monde m;
-	private static final int generation = 4;
+	private static final int generation = 1;
 	private int nbFourmi;
 	private Fourmi tabFourmi[];
 
@@ -12,25 +12,33 @@ public class Moteur {
 	}
 
 	public void boucleJeu() {
-
+		m.initialiser();
+		m.generer();
+		Arbre a = new Arbre(Comportements.IS_FOOD, new Arbre(Comportements.RECOLT), new Arbre(Comportements.IS_HOME, new Arbre(Comportements.DEPOSE), new Arbre(Comportements.GO_HOME, new Arbre(Comportements.GO), new Arbre(Comportements.GO))));
+		Fourmi tab[] = new Fourmi [nbFourmi];
 		for (int i = 1; i <= generation; i++) {
-			m.initialiser();
-			m.generer();
+			Monde m2 = new Monde(m);
+			m2.afficher();
 			for (int j = 0; j < nbFourmi; j++) {
-				//System.out.println("nombre de points d'actions : " + getNbActions());
-				this.tabFourmi[j] = new Fourmi();
+				// System.out.println("nombre de points d'actions : " + getNbActions());
+				this.tabFourmi[j] = new Fourmi(i,a);
 				this.tabFourmi[j].getComport().correctComport();
 				int nbactions = tabFourmi[j].getNbActions();
-				System.out.println("Nombre de point d'actions initiale :" + nbactions);
 				while (nbactions != 0) {
-					System.out.println(tabFourmi[j].toString());
-					tabFourmi[j].ActionFourmi(m);
+					//System.out.println(tabFourmi[j].toString());
+					//m2.afficher(tabFourmi[j]);
+					tabFourmi[j].ActionFourmi(m2);
+					//m2.afficher(tabFourmi[j]);
 					nbactions--;
-					m.afficher(tabFourmi[j]);
-					System.out.println("Nombre de point d'actions :" + nbactions);
-
 				}
+				tab[j] = tabFourmi[j];
 			}
+
+		}
+		for (int j = 0; j < nbFourmi; j++) {
+			if (tab[j].getScore() != 0) {
+			System.out.println(tab[j]);
+		}
 		}
 	}
 
