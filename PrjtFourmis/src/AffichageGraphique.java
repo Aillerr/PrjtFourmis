@@ -8,6 +8,7 @@ public class AffichageGraphique {
 	public void AffFenetre(int l, int h) {
 		Fenetre f = new Fenetre(l,h);
 		f.setFrameMenu();
+		
 	}
 }
 

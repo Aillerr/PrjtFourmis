@@ -204,6 +204,7 @@ public class Fenetre extends JFrame implements ActionListener{
 			}
 	    }
 	    
+	    
 	    this.setContentPane(content);
 	}
 
