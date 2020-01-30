@@ -4,9 +4,32 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 public class Monde {
+	/**
+	 * La taille du monde, le nombre de cases Nourriutre, Fourmilière, et le nombre d'actions autorisées pour la fourmi.
+	 */
 	private int taille, nbNourriture, nbFourmilliere, nbAction;
+	
+	/**
+	 * Le monde est un tableau 2D de Cases.
+	 * @see Case
+	 */
 	private Case tab[][];
 
+	
+	//Constructeurs
+	
+	/**
+	 * Constructeur avec tous les paramètres possibles
+	 * @param taille Taille du monde (carré)
+	 * @param nbNourriture Nombre de cases Nourriture
+	 * @param nbFourmilliere Nombre de cases Fourmilière
+	 * @param nbAction Nombre d'actions pour les fourmis
+	 * @see Monde#nbAction
+	 * @see Monde#nbFourmilliere
+	 * @see Monde#nbNourriture
+	 * @see Monde#taille
+	 * @see Monde#tab
+	 */
 	public Monde(int taille, int nbNourriture, int nbFourmilliere, int nbAction) {
 		this.taille = taille;
 		tab = new Case[taille][taille];
@@ -20,6 +43,16 @@ public class Monde {
 		this.nbAction = nbAction;
 	}
 
+	/**
+	 * Constructeur par copie afin de garder le monde sur lequel une fourmi joue
+	 * 
+	 * @param m Le monde copié
+	 * @see Monde#nbAction
+	 * @see Monde#nbFourmilliere
+	 * @see Monde#nbNourriture
+	 * @see Monde#taille
+	 * @see Monde#tab
+	 */
 	public Monde(Monde m) {
 		this.taille = m.taille;
 		this.nbFourmilliere = m.nbFourmilliere;
@@ -33,6 +66,15 @@ public class Monde {
 		}
 	}
 
+	/**
+	 * Construit un monde vide avec des valeurs nulles pour les paramètres, d'une taille précisée
+	 * @param taille La taille du monde
+	 * @see Monde#nbAction
+	 * @see Monde#nbFourmilliere
+	 * @see Monde#nbNourriture
+	 * @see Monde#taille
+	 * @see Monde#tab
+	 */
 	public Monde(int taille) { // monde vide
 		tab = new Case[taille][taille];
 		for (int i = 0; i < taille; i++) {
@@ -82,6 +124,20 @@ public class Monde {
 		this.tab = m.tab;
 	}
 
+	
+	//Gestion du monde
+	
+	/**
+	 * Génération du monde :
+	 * On place des fourmilières puis de la nourriture à des emplacements aléatoires
+	 * @see Monde#nbFourmilliere
+	 * @see Monde#nbNourriture
+	 * @see Monde#taille
+	 * @see Monde#tab
+	 * @see Case#getValue()
+	 * @see Nourriture#Nourriture(int, char)
+	 * @see Fourmiliere#Fourmiliere(int, char)
+	 */
 	public void generer() {
 		int nbCountNour = nbNourriture;
 		int nbCountFour = nbFourmilliere;
@@ -103,6 +159,12 @@ public class Monde {
 
 	}
 
+	/**
+	 * Initialisation du monde, toutes les cases ont une valeur de R, elles sont donc vides
+	 * @see Monde#taille
+	 * @see Monde#tab
+	 * @see Case#Case(int, int, char)
+	 */
 	public void initialiser() {
 		for (int i = 0; i < taille; i++) {
 			for (int j = 0; j < taille; j++) {
@@ -111,6 +173,15 @@ public class Monde {
 		}
 	}
 
+	//Affichage
+	
+	/**
+	 * Affichage du monde
+	 * Les cases ayant R pour valeur apparaissent vides, les autres voient leur valeur affichée	
+	 * @see Monde#taille
+	 * @see Monde#tab
+	 * @see Case#afficherCase()
+	 */
 	public void afficher() {
 		String ligne_sep = "";
 		for (int i = 0; i < 8 * taille + 1; i++) {
@@ -132,6 +203,15 @@ public class Monde {
 		}
 	}
 
+	/**
+	 * Affichage du monde avec une fourmi dedans, utilisée pour le mode texte
+	 * Les cases ayant R pour valeur apparaissent vides, les autres voient leur valeur affichée	et la fourmi est affichée avec un A
+	 * @see Monde#taille
+	 * @see Monde#tab
+	 * @see Case#afficherCase()
+	 * 
+	 * @param f La fourmi à afficher dans le monde
+	 */
 	public void afficher(Fourmi f) {
 		String ligne_sep = "";
 		for (int i = 0; i < 8 * taille + 1; i++) {
@@ -187,30 +267,77 @@ public class Monde {
 		writer.close();
 	}
 
+	
+	//Get
+	
+	/**
+	 * Récupère le nombre de cases de Nourriture dans le monde.
+	 * @return Le nombre de cases de Nourriture dans le monde
+	 * @see Monde#nbNourriture
+	 */
 	public int getNbNourriture() {
 		return nbNourriture;
 	}
 
+	/**
+	 * Récupère le nombre de cases de Fourmilières dans le monde.
+	 * @see Monde#nbFourmilliere
+	 * @return Le nombre de cases de Fourmilières dans le monde
+	 */
 	public int getNbFourmiliere() {
 		return nbFourmilliere;
 	}
 
+	/**
+	 * Récupère le nombre d'actions pour les fourmis.
+	 * @see Monde#nbAction
+	 * @return Un entier équivalent au nombre d'actions des fourmis
+	 */
 	public int getNbAction() {
 		return nbAction;
 	}
 
+	/**
+	 * Récupère la taille du monde (carré)
+	 * @see Monde#taille
+	 * @return La taille du monde
+	 */
 	public int getTaille() {
 		return taille;
 	}
 
+	/**
+	 * Récupère la case aux coordonnées en paramètre
+	 * 
+	 * @param i Ligne de la case
+	 * @param j Colonne de la case
+	 * @return L'objet Case en (i,j)
+	 * @see Case
+	 */
+	public Case getTable(int i, int j) {
+		return this.tab[i][j];
+	}
+	
+	//Set
+	
+	/**
+	 * Modifie le nombre d'actions pour les fourmis dans ce monde
+	 * @param nbAction Le nouveau nombre d'actions
+	 * @see Monde#nbAction
+	 */
 	public void setAction(int nbAction) {
 		this.nbAction = nbAction;
 	}
 
-	public Case getTable(int i, int j) {
-		return this.tab[i][j];
-	}
-
+	//Tests
+	
+	/**
+	 * Teste si la case en (x,y) est de la nourriture
+	 * @param x La ligne de la case
+	 * @param y La colonne de la case
+	 * @return Un booléen qui vaut true si c'est le cas, false sinon
+	 * @see Case#getValue()
+	 */
 	public boolean estNourriture(int x, int y) {
 			if (tab[x][y].getValue() == 'N' || tab[x][y].getValue() == 'A' + '+' + 'N') {
 				return true;
@@ -219,6 +346,14 @@ public class Monde {
 
 	}
 
+
+	/**
+	 * Teste si la case en (x,y) est une fourmilière
+	 * @param x La ligne de la case
+	 * @param y La colonne de la case
+	 * @return Un booléen qui vaut true si c'est le cas, false sinon
+	 * @see Case#getValue()
+	 */
 	public boolean estFourmiliere(int x, int y) {
 			if (tab[x][y].getValue() == 'F' || tab[x][y].getValue() == 'A' + '+' + 'F') {
 				return true;
@@ -227,6 +362,16 @@ public class Monde {
 		return false;
 	}
 
+	//Actions sur les fourmilières
+	
+	/**
+	 * Récupère toutes les fourmilières du monde
+	 * @param f La fourmi dans le monde, utilisée pour récupérer sa distance aux fourmilières
+	 * @return Un tableau avec les coordonnées de chaque fourmilière et leur distance à la fourmi
+	 * @see Monde#nbFourmilliere
+	 * @see Fourmi#getPositionX()
+	 * @see Fourmi#getPositionY()
+	 */
 	public int[][] recupFourmiliere(Fourmi f) {
 		int tableau[][] = new int[nbFourmilliere][3];
 		int ligne = 0;
@@ -243,6 +388,16 @@ public class Monde {
 		return tableau;
 	}
 
+	/**
+	 * Récupère la fourmilière la plus proche
+	 * 
+	 * @param f La fourmi dans le monde
+	 * @param c La case qui est de type Fourmilière qui sera la plus proche (donnée résultat)
+	 * @see Monde#recupFourmiliere(Fourmi)
+	 * @see Case#setCol(int)
+	 * @see Case#setRow(int)
+	 * @see Monde#nbFourmilliere
+	 */
 	public void recupFourmiliereLaPlusProche(Fourmi f, Case c) {
 		int temp = 0;
 		int tabFourm[][] = recupFourmiliere(f);
