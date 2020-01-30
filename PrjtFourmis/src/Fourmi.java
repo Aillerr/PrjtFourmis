@@ -1,30 +1,120 @@
 
 public class Fourmi {
+	
+	/**
+	 * Le score de la fourmi.
+	 * Plus il est haut, plus la fourmi a performé.
+	 * Elle gagne 10 de score quand elle ramasse de la nourriture, 20 si elle en dépose à la fourmilière.
+	 * 
+	 * @see Fourmi#getScore()
+	 * @see Fourmi#setScore(int)
+	 */
 	private int score;
+	
+	/**
+	 * La génération à laquelle appartient la fourmi.
+	 * 
+	 * @see Fourmi#getNumGeneration()
+	 */
 	private int numGeneration;
+	
+	/**
+	 * La position en X (ligne) de la fourmi sur le monde.
+	 * 
+	 * @see Fourmi#getPositionX()
+	 * @see Fourmi#setPositionX(int)
+	 */
 	private int positionX;
+	
+	/**
+	 * La position en Y (colonne) de la fourmi sur le monde.
+	 * 
+	 * @see Fourmi#getPositionY()
+	 * @see Fourmi#setPositionY(int)
+	 */
 	private int positionY;
+	
+	/**
+	 * Le comportement d'une fourmi. Il est stocké sous la forme d'un arbre binaire.
+	 * 
+	 * @see Fourmi#getComport()
+	 */
 	private Arbre comport;
+	
+	/**
+	 * Le booléen qui dit si la fourmi porte qqchose ou pas.
+	 * 
+	 * @see Fourmi#getCarrying()
+	 * @see Fourmi#setIsCarrying(int)
+	 */
 	private boolean isCarrying;
-	private static int nbActions = 10;
+	
+	/**
+	 * Le nombre d'action pour une fourmi
+	 * 
+	 * @see Fourmi#getNbActions()
+	 * @see Fourmi#setNbActions(int)
+	 */
+	private static int nbActions = 20;
 
 	// Constructeurs
 
+	/**
+	 * Constructeur sans paramètre
+	 * <p>
+	 * La fourmi est de 1ère génération, a 0 de score, ne porte rien.
+	 * On la pose en (0,0) et son comportement est créé avec le constructeur d'Arbre
+	 * </p>
+	 * 
+	 * @see Fourmi#comport
+	 * @see Fourmi#isCarrying
+	 * @see Fourmi#positionX
+	 * @see Fourmi#positionY
+	 * @see Fourmi#score
+	 * @see Fourmi#numGeneration
+	 * 
+	 * @see Arbre
+	 */
 	public Fourmi() {
+		
+		
 		this.score = 0;
+		
+		
 		this.numGeneration = 1;
+		
+		
 		this.isCarrying = false;
+		
+		
 		this.positionX = 0;
 		this.positionY = 0;
 		this.comport = new Arbre(100);
 	}
 
+	/**
+	 * Constructeur avec un paramètre pour choisir le numéro de la génération
+	 * 
+	 * @param n
+	 * Le numéro de génération
+	 * 
+	 * @see Fourmi#Fourmi()
+	 */
 	public Fourmi(int n) {
 		this();
 
 		this.numGeneration = n;
 	}
 
+	/**
+	 * Constructeur avec 2 paramètres pour choisir le numéro de la génération et le comportement.
+	 * 
+	 * @param n
+	 * Le numéro de la génération
+	 * 
+	 * @param A
+	 * L'arbre de comportements
+	 */
 	public Fourmi(int n, Arbre A) {
 		this(n);
 		this.comport = A;
@@ -32,56 +122,129 @@ public class Fourmi {
 
 	// Get
 
+	/**
+	 * Retourne le numéro de génération
+	 * 
+	 * @return Un entier représentant le numéro de la génération
+	 */
 	public int getNumGeneration() {
 		return this.numGeneration;
 	}
 
+	/**
+	 * Retourne l'arbre de comportements de la fourmi
+	 * 
+	 * @return Un arbre comportant les comportements
+	 */
 	public Arbre getComport() {
 		return this.comport;
 	}
 
+	/**
+	 * Retourne le nombre d'actions autoriséés pour la fourmi
+	 * 
+	 * @return Un entier représentant le nombre d'actions max que la fourmi peut faire
+	 */
 	public static int getNbActions() {
 		return nbActions;
 	}
 
+	/**
+	 * Retourne le statut de la fourmi, porte t-elle qqchose ou pas ?
+	 * 
+	 * @return Un booléen qui indique si la fourmi porte de la nourriture
+	 */
 	public boolean getCarrying() {
 		return isCarrying;
 	}
 
+	/**
+	 * Retourne le score de la fourmi
+	 * 
+	 * @return Un entier représentant son score
+	 */
 	public int getScore() {
 		return score;
 	}
 
+	/**
+	 * Retourne la ligne sur laquelle est la fourmi.
+	 * 
+	 * @return Un entier qui représente la ligne du monde (tableau de cases) sur laquelle est la fourmi.
+	 */
 	public int getPositionX() {
 		return positionX;
 	}
 
+	/**
+	 * Retourne la colonne sur laquelle est la fourmi.
+	 * 
+	 * @return Un entier qui représente la colonne du monde (tableau de cases) sur laquelle est la fourmi.
+	 */
 	public int getPositionY() {
 		return positionY;
 	}
 
 	// Set
 
+	/**
+	 * Incrémente la valeur du score de la fourmi.
+	 * 
+	 * @param i Le score à ajouter au score actuel.
+	 */
 	public void setScore(int i) {
 		this.score += i;
 	}
 
+	/**
+	 * Modifie le booléen qui indique si la fourmi porte qqchose.
+	 * 
+	 * @param b Le booléen qui remplacera le isCarrying actuel.
+	 */
 	public void setIsCarrying(boolean b) {
 		this.isCarrying = b;
 	}
 
+	/**
+	 * Modifie la ligne sur laquelle est la fourmi.
+	 * 
+	 * @param x La nouvelle ligne.
+	 */
 	public void setPositionX(int x) {
 		this.positionX = x;
 	}
 
+	
+	/**
+	 * Modifie la colonne sur laquelle est la fourmi.
+	 * 
+	 * @param y La nouvelle colonne.
+	 */
 	public void setPositionY(int y) {
 		this.positionY = y;
 	}
 
+	
+	/**
+	 * Modifie le nombre d'actions maximales que la fourmi peut faire.
+	 * 
+	 * @param nb Un entier qui est le nouveau nombre d'actions.
+	 */
 	public static void setNbActions(int nb) {
 		nbActions = nb;
 	}
 
+	
+	/**
+	 * La fourmi se déplace d'une case vers la fourmilière la plus proche du monde m.
+	 * On modifie donc la positionX et la positionY de la fourmi.
+	 * 
+	 * @param m Le monde sur lequel la fourmi se déplace.
+	 * 
+	 * @see Monde
+	 * @see Monde#recupFourmiliereLaPlusProche(Fourmi, Case)
+	 * @see Case
+	 */
 	public void goHome(Monde m) {
 		int nbAction = getNbActions();
 		Case ca = new Case(0, 0);
@@ -111,11 +274,19 @@ public class Fourmi {
 			}
 		}				
 	}
-					
-					
-					
+											
 					
 	// Action d'une fourmi
+	
+	/**
+	 * La méthode Action d'une fourmi.
+	 * Elle effectue l'action du noeud principal de son arbre, puis en fonction du type d'action, elle effectue la suivante en prenant le fils gauche ou droit de l'abre.
+	 * 
+	 * @param m Le monde sur lequel se déplace la fourmi.
+	 * 
+	 * @see Comportements
+	 * @see Arbre
+	 */
 	public void ActionFourmi(Monde m) {
 		boolean finAction = false;
 		Arbre A = getComport();
@@ -196,8 +367,10 @@ public class Fourmi {
 					finAction = true;
 				}
 				else {
-					A = A.getSousArbreGauche();
+					if(!A.isFeuille()) {
+					A = A.getSousArbreDroit();
 					continue;
+					}
 				}
 				break;
 				
@@ -234,11 +407,19 @@ public class Fourmi {
 	}
 	// Croiser 2 fourmis
 
+	/**
+	 * On effectue le croisement entre 2 fourmis.
+	 * 
+	 * @param f L'autre fourmi avec laquelle en croise notre fourmi
+	 * @return Une nouvelle fourmi qui comprend une partie de l'arbre de chaque parent.
+	 * 
+	 * @see Arbre
+	 */
 	public Fourmi Croisement(Fourmi f) {
 		Arbre arb = f.getComport(), source = this.comport;
 
 		int rnd = (int) (Math.random() * 4);
-		// System.out.println(rnd);
+
 		if (rnd >= 2) { // Si 0 ou 1 on prend le comportement de la fourmi en paramètre, sinon l'autre
 			arb = this.comport;
 			source = f.getComport();
@@ -253,6 +434,11 @@ public class Fourmi {
 		return (new Fourmi(f.getNumGeneration() + 1, arb));
 	}
 
+	/**
+	 * La fonction toString renvoie le score et la position sur le monde de la fourmi.
+	 * 
+	 * @return Une chaine de caractères que l'on pourra afficher avec le score, la positionX, et la positionY.
+	 */
 	public String toString() {
 		return ("Score : " + getScore() + " Arbre : " + comport.toString() + " " + "Position en X : " + getPositionX()
 				+ " Position Y : " + getPositionY());

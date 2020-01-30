@@ -14,14 +14,14 @@ public class Moteur {
 	public void boucleJeu() {
 		m.initialiser();
 		m.generer();
-		Arbre a = new Arbre(Comportements.IS_FOOD, new Arbre(Comportements.RECOLT), new Arbre(Comportements.IS_HOME, new Arbre(Comportements.DEPOSE), new Arbre(Comportements.GO_HOME, new Arbre(Comportements.GO), new Arbre(Comportements.GO))));
+		//Arbre a = new Arbre(Comportements.IS_FOOD, new Arbre(Comportements.RECOLT), new Arbre(Comportements.IS_HOME, new Arbre(Comportements.DEPOSE), new Arbre(Comportements.GO_HOME, new Arbre(Comportements.GO), new Arbre(Comportements.GO))));
 		Fourmi tab[] = new Fourmi [nbFourmi];
 		for (int i = 1; i <= generation; i++) {
 			Monde m2 = new Monde(m);
 			m2.afficher();
 			for (int j = 0; j < nbFourmi; j++) {
 				// System.out.println("nombre de points d'actions : " + getNbActions());
-				this.tabFourmi[j] = new Fourmi(i,a);
+				this.tabFourmi[j] = new Fourmi(i);
 				this.tabFourmi[j].getComport().correctComport();
 				int nbactions = tabFourmi[j].getNbActions();
 				while (nbactions != 0) {
