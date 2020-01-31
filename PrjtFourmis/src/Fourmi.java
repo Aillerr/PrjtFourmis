@@ -1,3 +1,4 @@
+import java.io.*;
 
 public class Fourmi {
 	
@@ -444,4 +445,16 @@ public class Fourmi {
 				+ " Position Y : " + getPositionY());
 	}
 
+	public void download(String path, String filename){
+		try {
+			PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(path + "\\" + filename + ".txt", true)));
+			writer.println("score : "+score+" | N° de la génération : "+numGeneration+" | Position : ("+positionX+","+positionY+") | Nourriture ? : "+isCarrying+" | Arbre : ");
+			writer.println(comport.toString());
+			writer.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }

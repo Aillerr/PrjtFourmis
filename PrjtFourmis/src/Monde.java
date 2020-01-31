@@ -1,7 +1,4 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 
 public class Monde {
 	/**
@@ -93,35 +90,42 @@ public class Monde {
 	 * @param
 	 * @throws IOException
 	 */
-	public Monde(String fichier) throws IOException {
-		BufferedReader lecteur = new BufferedReader(new FileReader(fichier));
-		String line = lecteur.readLine();
-		taille = line.length() / 8;
-		Monde m = new Monde(taille);
-		for (int y = 2; y <= taille * 2 + 1; y++) {
-			line = lecteur.readLine();
-			if (y % 2 == 0) {
-				int row = y / 2 - 1;
-				line = line.substring(4, line.length() - 4);
-				String[] line_spl = line.split("\\s{3}\\|\\s{3}"); // Split (" | ")
-				for (int col = 0; col < line_spl.length; col++) {
-					if (line_spl[col].compareTo("F") == 0) {
-						m.tab[row][col] = new Fourmiliere(0, 'F');
-						nbFourmilliere++;
-					} else if (line_spl[col].compareTo("F") != 0 && line_spl[col].compareTo(" ") != 0) {
-						try {
-							int nbNour = Integer.parseInt(line_spl[col]);
-							m.tab[row][col] = new Nourriture(nbNour, 'N');
-							nbNourriture++;
-						} catch (java.lang.NumberFormatException e) {
-							System.out.println(
-									"Objet non reconnue ! x =" + row + "y =  " + y + ": !" + line_spl[col] + "! ");
+	public Monde(String fichier) {
+		BufferedReader lecteur = null;
+		try {
+			lecteur = new BufferedReader(new FileReader(fichier));
+			String line = lecteur.readLine();
+			taille = line.length() / 8;
+			Monde m = new Monde(taille);
+			for (int y = 2; y <= taille * 2 + 1; y++) {
+				line = lecteur.readLine();
+				if (y % 2 == 0) {
+					int row = y / 2 - 1;
+					line = line.substring(4, line.length() - 4);
+					String[] line_spl = line.split("\\s{3}\\|\\s{3}"); // Split (" | ")
+					for (int col = 0; col < line_spl.length; col++) {
+						if (line_spl[col].compareTo("F") == 0) {
+							m.tab[row][col] = new Fourmiliere(0, 'F');
+							nbFourmilliere++;
+						} else if (line_spl[col].compareTo("F") != 0 && line_spl[col].compareTo(" ") != 0) {
+							try {
+								int nbNour = Integer.parseInt(line_spl[col]);
+								m.tab[row][col] = new Nourriture(nbNour, 'N');
+								nbNourriture++;
+							} catch (java.lang.NumberFormatException e) {
+								System.out.println(
+										"Objet non reconnue ! x =" + row + "y =  " + y + ": !" + line_spl[col] + "! ");
+							}
 						}
 					}
 				}
 			}
+			this.tab = m.tab;
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		this.tab = m.tab;
 	}
 
 	
@@ -156,7 +160,6 @@ public class Monde {
 				}
 			}
 		}
-
 	}
 
 	/**
@@ -237,8 +240,15 @@ public class Monde {
 		}
 	}
 
-	public void download(String path, String filename) throws IOException {
-		PrintWriter writer = new PrintWriter(path + "\\" + filename + ".txt", "UTF-8");
+	public void download(String path, String filename) {
+		PrintWriter writer = null;
+		try {
+			writer = new PrintWriter(path + "\\" + filename + ".txt", "UTF-8");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 
 		String ligne_sep = "";
 		for (int i = 0; i < 8 * taille + 1; i++) {
