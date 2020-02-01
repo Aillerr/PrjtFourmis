@@ -258,5 +258,9 @@ public class Monde {
 		;
 
 	}
+	
+	public void setCase(int x, int y , char c) {
+		tab[x][y] = new Case (x,y,c);
+	}
 
 }

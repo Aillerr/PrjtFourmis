@@ -31,8 +31,6 @@ public class Case {
 		return this.value;
 	}
 	
-	
-	
 	public void setRow(int x) {
 		this.row = x;
 	}

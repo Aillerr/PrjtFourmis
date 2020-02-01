@@ -55,7 +55,7 @@ public class Fourmi {
 	 * @see Fourmi#getNbActions()
 	 * @see Fourmi#setNbActions(int)
 	 */
-	private static int nbActions = 20;
+	private static int nbActions = 10;
 
 	// Constructeurs
 
@@ -371,6 +371,7 @@ public class Fourmi {
 					A = A.getSousArbreDroit();
 					continue;
 					}
+					else finAction=true;
 				}
 				break;
 				
