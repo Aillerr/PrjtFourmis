@@ -4,7 +4,7 @@ public class Monde {
 	/**
 	 * La taille du monde, le nombre de cases Nourriutre, Fourmilière, et le nombre d'actions autorisées pour la fourmi.
 	 */
-	private int taille, nbNourriture, nbFourmilliere, nbAction;
+	private int taille, nbNourriture, nbFourmilliere;
 	
 	/**
 	 * Le monde est un tableau 2D de Cases.
@@ -27,7 +27,7 @@ public class Monde {
 	 * @see Monde#taille
 	 * @see Monde#tab
 	 */
-	public Monde(int taille, int nbNourriture, int nbFourmilliere, int nbAction) {
+	public Monde(int taille, int nbNourriture, int nbFourmilliere) {
 		this.taille = taille;
 		tab = new Case[taille][taille];
 		for (int i = 0; i < taille; i++) {
@@ -37,7 +37,6 @@ public class Monde {
 		}
 		this.nbFourmilliere = nbFourmilliere;
 		this.nbNourriture = nbNourriture;
-		this.nbAction = nbAction;
 	}
 
 	/**
@@ -54,7 +53,6 @@ public class Monde {
 		this.taille = m.taille;
 		this.nbFourmilliere = m.nbFourmilliere;
 		this.nbNourriture = m.nbNourriture;
-		this.nbAction = m.nbAction;
 		this.tab = new Case[taille][taille];
 		for (int i = 0; i < taille; i++) {
 			for (int j = 0; j < taille; j++) {
@@ -81,7 +79,6 @@ public class Monde {
 		}
 		this.nbFourmilliere = 0;
 		this.nbNourriture = 0;
-		this.nbAction = 0;
 	}
 
 	/**
@@ -299,15 +296,6 @@ public class Monde {
 	}
 
 	/**
-	 * Récupère le nombre d'actions pour les fourmis.
-	 * @see Monde#nbAction
-	 * @return Un entier équivalent au nombre d'actions des fourmis
-	 */
-	public int getNbAction() {
-		return nbAction;
-	}
-
-	/**
 	 * Récupère la taille du monde (carré)
 	 * @see Monde#taille
 	 * @return La taille du monde
@@ -329,16 +317,6 @@ public class Monde {
 	}
 	
 	//Set
-	
-	/**
-	 * Modifie le nombre d'actions pour les fourmis dans ce monde
-	 * @param nbAction Le nouveau nombre d'actions
-	 * @see Monde#nbAction
-	 */
-	public void setAction(int nbAction) {
-		this.nbAction = nbAction;
-	}
-
 	//Tests
 	
 	/**

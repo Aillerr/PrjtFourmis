@@ -247,33 +247,109 @@ public class Fourmi {
 	 * @see Case
 	 */
 	public void goHome(Monde m) {
-		int nbAction = getNbActions();
 		Case ca = new Case(0, 0);
 		m.recupFourmiliereLaPlusProche(this, ca);
 		int x = getPositionX();
 		int y = getPositionY();
 		int caseX = ca.getRow();
 		int caseY = ca.getCol();
-		if (caseY != y) {
-			if (caseY > y) {
-				y++;
-				setPositionY(y);
-			}
-			else if (caseY < y){
-				y--;
-				setPositionY(y);
+		if (!m.estFourmiliere(positionX, positionY)) {
+			if (caseY != y) {
+				if (caseY > y) {
+					if ((caseY + y) / m.getTaille() > 0.5) {
+						// while (nbAction != 0 && caseY != y) {
+						y--;
+						if (y == 0) {
+							y = m.getTaille() - 1;
+						}
+						setPositionY(y);
+						// nbAction--;
+						// setNbActions(nbAction);
+						// }
+					} else {
+						// while (nbAction != 0 && caseY != y) {
+						y++;
+						if (y == m.getTaille()) {
+							y = 0;
+						}
+						setPositionY(y);
+						// nbAction--;
+						// setNbActions(nbAction);
+						// }
+					}
+				} else {
+					if ((caseY + y) / m.getTaille() > 0.5) {
+						// while (nbAction != 0 && caseY != y) {
+						y++;
+						if (y == m.getTaille()) {
+							y = 0;
+						}
+						setPositionY(y);
+						// nbAction--;
+						// setNbActions(nbAction);
+						// }
+					} else {
+						// while (nbAction != 0 && caseY != y) {
+						y--;
+						if (y == 0) {
+							y = m.getTaille() - 1;
+						}
+						setPositionY(y);
+						// nbAction--;
+						// setNbActions(nbAction);
+						// }
+					}
+
+				}
+			} else if (caseX != x) {
+				if (caseX > x) {
+					if ((caseX + x) / m.getTaille() > 0.5) {
+						// while (nbAction != 0 && caseX != x) {
+						x--;
+						if (x == 0) {
+							x = m.getTaille() - 1;
+						}
+						setPositionX(x);
+						// nbAction--;
+						// setNbActions(nbAction);
+						// }
+					} else {
+						// while (nbAction != 0 && caseX != x) {
+						x++;
+						if (x == m.getTaille()) {
+							x = 0;
+						}
+						setPositionX(x);
+						// nbAction--;
+						// setNbActions(nbAction);
+						// }
+					}
+				} else {
+					if ((caseX + x) / m.getTaille() > 0.5) {
+						// while (nbAction != 0 && caseX != x) {
+						x++;
+						if (x == m.getTaille()) {
+							x = 0;
+						}
+						setPositionX(x);
+						// nbAction--;
+						// setNbActions(nbAction);
+						// }
+					} else {
+						// while (nbAction != 0 && caseX != x) {
+						x--;
+						if (x == 0) {
+							x = m.getTaille() - 1;
+						}
+						setPositionX(x);
+						// nbAction--;
+						// setNbActions(nbAction);
+						// }
+					}
+
+				}
 			}
 		}
-		else if (caseX != x) {
-			if (caseX > x) {
-				x++;
-				setPositionX(x);
-			}
-			else if (caseX < x){
-				x--;
-				setPositionX(x);
-			}
-		}				
 	}
 											
 					
@@ -372,6 +448,7 @@ public class Fourmi {
 					A = A.getSousArbreDroit();
 					continue;
 					}
+					else finAction = true;
 				}
 				break;
 				
