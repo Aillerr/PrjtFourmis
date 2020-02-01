@@ -116,7 +116,7 @@ public class Arbre {
     /**
      * Permert de modifier le fils gauche de l'arbre.
      * 
-     * @param ng Le nouveau fils gauche de l'arbre
+     * @param nd Le nouveau fils gauche de l'arbre
      */
     public void setSousArbreDroite(Arbre nd) {
     	this.fd=nd;
