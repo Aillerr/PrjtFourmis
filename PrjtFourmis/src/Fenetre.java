@@ -16,27 +16,92 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.Timer;
  
+/**
+ * La classe fenetre sert à afficher des fenêtre
+ * @author tangc
+ *
+ */
 public class Fenetre extends JFrame implements ActionListener{
+	/**
+	 * Dimensions de la fenêtre
+	 */
 	private int largeur, hauteur;
+	/**
+	 * Bouton qui sera affiché dans une fenêtre
+	 * 
+	 */
 	private JButton bt_jouer = new JButton("Commencer");
+	/**
+	 * Bouton qui sera affiché dans une fenetre
+	 * 
+	 */
 	private JButton bt_param = new JButton("Paramètres");
+	/**
+	 * Bouton qui sera affiché dans une fenetre
+	 * 
+	 */
 	private JButton bt_lancer = new JButton("Lancer");
-	private Timer timer;
+	/**
+	 * Monde que lon affichera
+	 */
 	private Monde m;
+	/**
+	 * Dimension de difféerents objets à afficher
+	 */
 	private int dim;
+	/**
+	 * Contenant dans lequel on disposera différents contenu à afficher
+	 */
 	private JPanel content;
+	/**
+	 * Tableau à deux dimensions de Panneaux pour afficher des élements trié en tableau
+	 */
 	private Panneau[][] Grid;
+	/**
+	 * Taille de la carte, paramètre rentré par l'utilisateur
+	 * 
+	 * @see Panneau
+	 */
 	private JFormattedTextField map = new JFormattedTextField(NumberFormat.getIntegerInstance());
+	/**
+	 * Nombre de fourmis gardé à chaque génération
+	 */
+	private JFormattedTextField nb_g = new JFormattedTextField(NumberFormat.getIntegerInstance());
+	/**
+	 * Nombre de nourriture sur la carte, paramètre rentré par l'utilisateur
+	 */
 	private JFormattedTextField nb_n = new JFormattedTextField(NumberFormat.getIntegerInstance());
+	/**
+	 * Nombre de fourmilière sur la carte, paramètre rentré par l'utilisateur
+	 */
 	private JFormattedTextField nb_h = new JFormattedTextField(NumberFormat.getIntegerInstance());
+	/**
+	 * Nombre de fourmis au lancement de la simulation
+	 */
 	private JFormattedTextField nb = new JFormattedTextField(NumberFormat.getIntegerInstance());
+	/**
+	 * Temps entre chaque action d'une fourmis (si affichage), paramètre rentré par l'utilisateur
+	 */
 	private JFormattedTextField time = new JFormattedTextField(NumberFormat.getIntegerInstance());
+	/**
+	 * Nombre d'actoins que la fourmis effectura, paramètre rentré par l'utilisateur
+	 */
 	private JFormattedTextField nb_actions = new JFormattedTextField(NumberFormat.getIntegerInstance());
+	/**
+	 * Nombre de génération, paramètre rentré par l'utilisateur
+	 */
 	private JFormattedTextField nb_manche = new JFormattedTextField(NumberFormat.getIntegerInstance());
+	/**
+	 * Bouton radio pour choisir si l'utilisateur veut afficher la simulation ou pas
+	 */
 	private JRadioButton check1 = new JRadioButton("Voir la simulation");
 	private JRadioButton check2 = new JRadioButton("Voir eulement les réultats");
 	
-	
+	/**
+	 * Constructeur pour créer une fenêtre
+	 * @param l largeur de la fenêtre
+	 * @param h hauteur de la fenêtre
+	 */
 	public Fenetre(int l, int h){  
 		this.largeur=l;
 		this.hauteur=h;
@@ -46,7 +111,10 @@ public class Fenetre extends JFrame implements ActionListener{
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
 	}
-	
+	/**
+	 * Constructeur pour créer la fenêtre de la simulation
+	 * @param m
+	 */
 	public Fenetre(Monde m){  
 		this.largeur=800;
 		this.hauteur=800;
@@ -112,6 +180,10 @@ public class Fenetre extends JFrame implements ActionListener{
 		nb_lb.setPreferredSize(new Dimension(250, 30));
 		nb.setPreferredSize(new Dimension(50, 30));
 		
+		JLabel lb_garder = new JLabel("Nombre de fourmis à garder chaque manche : ");
+		lb_garder.setPreferredSize(new Dimension(250, 30));
+		nb_g.setPreferredSize(new Dimension(50, 30));
+		
 		JLabel lb_nourriture = new JLabel("Nombre de nourriture sur la carte : ");
 		lb_nourriture.setPreferredSize(new Dimension(250, 30));
 		nb_n.setPreferredSize(new Dimension(50, 30));
@@ -143,12 +215,14 @@ public class Fenetre extends JFrame implements ActionListener{
 		
 		JPanel content = new JPanel();
 	    content.setPreferredSize(new Dimension(500, 500));
-	    GridLayout g = new GridLayout(9,2,10,10);
+	    GridLayout g = new GridLayout(10,2,10,10);
 	    content.setLayout(g);
 	    content.add(map_lb);
 	    content.add(map);
 	    content.add(nb_lb);
 	    content.add(nb);
+	    content.add(lb_garder);
+	    content.add(nb_g);
 	    content.add(lb_nourriture);
 	    content.add(nb_n);
 	    content.add(lb_home);
@@ -168,7 +242,9 @@ public class Fenetre extends JFrame implements ActionListener{
 	
 	public void setFrameMap(int taille) {	
 		JPanel content = new JPanel();
+		this.content=content;
 		GridLayout g = new GridLayout(taille,taille,1,1);
+		this.content=content;
 		content.setLayout(g);
 	    content.setPreferredSize(new Dimension(800, 800));
 		
@@ -197,24 +273,51 @@ public class Fenetre extends JFrame implements ActionListener{
 				}
 			}
 	    }
-	    content.getIgnoreRepaint();
+	    content.repaint();
 	    this.setContentPane(content);
 	}
 	
-	public void update(int x2, int y2,int x, int y) {
-		
-		Grid[x2][y2].setPanneau(5,dim);
-		if((m.getTable(x,y)).getValue()=='A' + ' ' + '+' + ' ' + 'N') {
+	public void update(int x2, int y2,int x, int y, char c) {
+		if(c=='B') {
+			Grid[x2][y2].setPanneau(6,dim);
+		}
+		else{
+			if(c=='C') {
+				Grid[x2][y2].setPanneau(7,dim);
+			}
+			else Grid[x2][y2].setPanneau(5,dim);
+		}
+		if((m.getTable(x,y)).getValue()=='N') {
 			Grid[x][y].setPanneau(3,dim);
 		}
-		if((m.getTable(x,y)).getValue()=='A' + ' ' +  '+' + ' ' + 'F') {
-			Grid[x][y].setPanneau(4,dim);
+		else {
+			if((m.getTable(x,y)).getValue()=='F') {
+				Grid[x][y].setPanneau(4,dim);
+			}
+			else {
+				Grid[x][y].setPanneau(2,dim);
+			}
+		}
+		
+		this.content.repaint();
+		this.setVisible(true);	
+	}
+	
+	public void spawn() {
+		if((m.getTable(0,0)).getValue()=='N') {
+			Grid[0][0].setPanneau(6,dim);
 		}
 		else {
-			Grid[x][y].setPanneau(2,dim);
+			if((m.getTable(0,0)).getValue()=='F') {
+				Grid[0][0].setPanneau(7,dim);
+			}
+			else {
+				Grid[0][0].setPanneau(5,dim);
+			}
 		}
-		this.setVisible(true);
 		
+		this.content.repaint();
+		this.setVisible(true);	
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -228,6 +331,7 @@ public class Fenetre extends JFrame implements ActionListener{
 			int taille=Integer.parseInt(map.getText());
 			int nb_a=Integer.parseInt(nb_actions.getText());
 			int nf=Integer.parseInt(nb.getText());
+			int ng=Integer.parseInt(nb.getText());
 			int t=Integer.parseInt(time.getText());
 			int nb_food=Integer.parseInt(nb_n.getText());
 			int nb_home=Integer.parseInt(nb_h.getText());
@@ -235,12 +339,11 @@ public class Fenetre extends JFrame implements ActionListener{
 			int nb_fourmilliere= Integer.parseInt(nb_h.getText());
 			int nb_nourriture =Integer.parseInt(nb_n.getText());
 			boolean aff=check1.isSelected();
+			Monde ms= new Monde(taille,nb_food,nb_home);
 			this.dispose();
-			Moteur simul=new Moteur(nf,taille,t,nb_a,nb_gen,nb_fourmilliere,nb_nourriture,aff);
+			Moteur simul=new Moteur(ms,nf,ng,t,nb_a,nb_gen,aff);
 			simul.boucleJeu();
 		}
-		if(src==timer) {
-			
-		}
-	}     
+
+	}  
 }

@@ -1,3 +1,4 @@
+import java.io.*;
 
 public class Fourmi {
 	
@@ -55,7 +56,7 @@ public class Fourmi {
 	 * @see Fourmi#getNbActions()
 	 * @see Fourmi#setNbActions(int)
 	 */
-	private static int nbActions = 10;
+	private static int nbActions = 20;
 
 	// Constructeurs
 
@@ -120,8 +121,68 @@ public class Fourmi {
 		this.comport = A;
 	}
 
+	/**
+	 * Constructeur d'une fourmi à partir de sa sauvegarde.
+	 * @param lecteur Le buffer comprenant les lignes de la fourmi.
+	 */
+	public Fourmi(BufferedReader lecteur){
+		try {
+			String line = lecteur.readLine();
+			line = lecteur.readLine();
+			String[] attributs = line.split("\\s\\|\\s");
+			String [] val = new String [4];
+			for (int i =0; i<val.length; i++) {
+				val[i] = attributs[i].split("\\s:\\s")[1];
+			}
+			score = Integer.parseInt(val[0]);
+			numGeneration = Integer.parseInt(val[1]);
+			val[2] = val[2].replace("(","").replace(")","");
+			String position[] = val[2].split(",");
+			positionX = Integer.parseInt(position[0]);
+			positionY = Integer.parseInt(position[1]);
+			isCarrying = Boolean.parseBoolean(val[3]);
+			String arbrestr = "";
+			while(!(line = lecteur.readLine()).equals("")){
+				arbrestr += line;
+				arbrestr += "\n";
+			}
+			BufferedReader lecteurArbre = new BufferedReader(new StringReader(arbrestr));
+			comport = new Arbre("", lecteurArbre, lecteurArbre.readLine());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+	
+	/**
+	 * Constructeur par copie d'une fourmi.
+	 * 
+	 * @param f
+	 * Une fourmi
+	 * 
+	 */
+	
+	public Fourmi (Fourmi f) {
+		this.score = f.getScore();
+		this.numGeneration = f.getNumGeneration();
+		this.isCarrying = f.getCarrying();
+		this.positionX = f.getPositionX();
+		this.positionY = f.getPositionY();
+		this.comport = f.getArbre();
+	}
+
 	// Get
 
+	/**
+	 * Retourne l'arbre de la fourmi
+	 * 
+	 * @return Un arbre
+	 */
+	
+		public Arbre getArbre() {
+			return this.comport;
+		}
+		
 	/**
 	 * Retourne le numéro de génération
 	 * 
@@ -246,33 +307,109 @@ public class Fourmi {
 	 * @see Case
 	 */
 	public void goHome(Monde m) {
-		int nbAction = getNbActions();
 		Case ca = new Case(0, 0);
 		m.recupFourmiliereLaPlusProche(this, ca);
 		int x = getPositionX();
 		int y = getPositionY();
 		int caseX = ca.getRow();
 		int caseY = ca.getCol();
-		if (caseY != y) {
-			if (caseY > y) {
-				y++;
-				setPositionY(y);
-			}
-			else if (caseY < y){
-				y--;
-				setPositionY(y);
+		if (!m.estFourmiliere(positionX, positionY)) {
+			if (caseY != y) {
+				if (caseY > y) {
+					if ((caseY + y) / m.getTaille() > 0.5) {
+						// while (nbAction != 0 && caseY != y) {
+						y--;
+						if (y == 0) {
+							y = m.getTaille() - 1;
+						}
+						setPositionY(y);
+						// nbAction--;
+						// setNbActions(nbAction);
+						// }
+					} else {
+						// while (nbAction != 0 && caseY != y) {
+						y++;
+						if (y == m.getTaille()) {
+							y = 0;
+						}
+						setPositionY(y);
+						// nbAction--;
+						// setNbActions(nbAction);
+						// }
+					}
+				} else {
+					if ((caseY + y) / m.getTaille() > 0.5) {
+						// while (nbAction != 0 && caseY != y) {
+						y++;
+						if (y == m.getTaille()) {
+							y = 0;
+						}
+						setPositionY(y);
+						// nbAction--;
+						// setNbActions(nbAction);
+						// }
+					} else {
+						// while (nbAction != 0 && caseY != y) {
+						y--;
+						if (y == 0) {
+							y = m.getTaille() - 1;
+						}
+						setPositionY(y);
+						// nbAction--;
+						// setNbActions(nbAction);
+						// }
+					}
+
+				}
+			} else if (caseX != x) {
+				if (caseX > x) {
+					if ((caseX + x) / m.getTaille() > 0.5) {
+						// while (nbAction != 0 && caseX != x) {
+						x--;
+						if (x == 0) {
+							x = m.getTaille() - 1;
+						}
+						setPositionX(x);
+						// nbAction--;
+						// setNbActions(nbAction);
+						// }
+					} else {
+						// while (nbAction != 0 && caseX != x) {
+						x++;
+						if (x == m.getTaille()) {
+							x = 0;
+						}
+						setPositionX(x);
+						// nbAction--;
+						// setNbActions(nbAction);
+						// }
+					}
+				} else {
+					if ((caseX + x) / m.getTaille() > 0.5) {
+						// while (nbAction != 0 && caseX != x) {
+						x++;
+						if (x == m.getTaille()) {
+							x = 0;
+						}
+						setPositionX(x);
+						// nbAction--;
+						// setNbActions(nbAction);
+						// }
+					} else {
+						// while (nbAction != 0 && caseX != x) {
+						x--;
+						if (x == 0) {
+							x = m.getTaille() - 1;
+						}
+						setPositionX(x);
+						// nbAction--;
+						// setNbActions(nbAction);
+						// }
+					}
+
+				}
 			}
 		}
-		else if (caseX != x) {
-			if (caseX > x) {
-				x++;
-				setPositionX(x);
-			}
-			else if (caseX < x){
-				x--;
-				setPositionX(x);
-			}
-		}				
 	}
 											
 					
@@ -294,7 +431,6 @@ public class Fourmi {
 		int y = getPositionY();
 		int z = (int) (Math.random() * 3);
 		while (!finAction) {
-
 			Comportements c = A.getNoeud();
 			switch (c) {
 			case GO:
@@ -371,18 +507,22 @@ public class Fourmi {
 					A = A.getSousArbreDroit();
 					continue;
 					}
-					else finAction=true;
+					else finAction = true;
 				}
 				break;
 				
 			case IS_FOOD:
 				if (!A.isFeuille()) {
-					if (m.estNourriture(positionX, positionY) && !getCarrying()) {
+					if (m.estNourriture(positionX, positionY) && !getCarrying()){
+						if (A.getSousArbreGauche() != null) {
 						A = A.getSousArbreGauche();
 						continue;
+						}
 					} else {
+						if (A.getSousArbreDroit() != null) {
 						A = A.getSousArbreDroit();
 						continue;
+						}
 					}
 				}
 				finAction = true;
@@ -390,11 +530,15 @@ public class Fourmi {
 			case IS_HOME:
 				if (!A.isFeuille()) {
 					if (m.estFourmiliere(positionX, positionY) && getCarrying()) {
+						if (A.getSousArbreGauche() != null) {
 						A = A.getSousArbreGauche();
 						continue;
+						}
 					} else {
+						if (A.getSousArbreDroit() != null) {
 						A = A.getSousArbreDroit();
 						continue;
+						}
 					}
 				} else
 					finAction = true;
@@ -418,7 +562,6 @@ public class Fourmi {
 	 */
 	public Fourmi Croisement(Fourmi f) {
 		Arbre arb = f.getComport(), source = this.comport;
-
 		int rnd = (int) (Math.random() * 4);
 
 		if (rnd >= 2) { // Si 0 ou 1 on prend le comportement de la fourmi en paramètre, sinon l'autre
@@ -432,8 +575,9 @@ public class Fourmi {
 		else
 			arb.setSousArbreDroite(source.getSousArbreDroit()); // Sinon le fils droit
 
-		return (new Fourmi(f.getNumGeneration() + 1, arb));
+		return (new Fourmi(f.getNumGeneration(), arb));
 	}
+
 
 	/**
 	 * La fonction toString renvoie le score et la position sur le monde de la fourmi.
@@ -445,4 +589,25 @@ public class Fourmi {
 				+ " Position Y : " + getPositionY());
 	}
 
+	/**
+	 * La fonction download sauvegarde les attribues de la fourmie dans un fichier text, si le fichier contient déjà des lignes de texte écrit à la suite
+	 * @param path Un dossier permettant la sauvegarde
+	 * @param filename Le nom du fichier (sans extension)
+	 */
+	public void download(String path, String filename){
+		try {
+			File fichier = new File(path + "\\" + filename + ".txt");
+			fichier.delete();
+			PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(path + "\\" + filename + ".txt", true)));
+			writer.println("---------------------------------------------------------------------");
+			writer.println("score : "+score+" | N° de la génération : "+numGeneration+" | Position : ("+positionX+","+positionY+") | Nourriture ? : "+isCarrying+" | Arbre : ");
+			writer.println(comport.toString());
+			writer.println();
+			writer.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }

@@ -55,12 +55,29 @@ public class Panneau extends JPanel {
 		
 		if(i==5) {
 			try {
-				Image fermite= ImageIO.read(new File("fermite.png"));
+				Image fermite= ImageIO.read(new File("fourmis.jpg"));
 				g.drawImage(fermite,0,0,dim,dim,this);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			
+		}
+		if(i==6) {
+			try {
+				Image fermite= ImageIO.read(new File("food_fourmis.jpg"));
+				g.drawImage(fermite,0,0,dim,dim,this);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		if(i==7) {
+			try {
+				Image fermite= ImageIO.read(new File("homefourmis.jpg"));
+				g.drawImage(fermite,0,0,dim,dim,this);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
