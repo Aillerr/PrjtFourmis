@@ -431,7 +431,6 @@ public class Fourmi {
 		int y = getPositionY();
 		int z = (int) (Math.random() * 3);
 		while (!finAction) {
-
 			Comportements c = A.getNoeud();
 			switch (c) {
 			case GO:
@@ -514,12 +513,16 @@ public class Fourmi {
 				
 			case IS_FOOD:
 				if (!A.isFeuille()) {
-					if (m.estNourriture(positionX, positionY) && !getCarrying()) {
+					if (m.estNourriture(positionX, positionY) && !getCarrying()){
+						if (A.getSousArbreGauche() != null) {
 						A = A.getSousArbreGauche();
 						continue;
+						}
 					} else {
+						if (A.getSousArbreDroit() != null) {
 						A = A.getSousArbreDroit();
 						continue;
+						}
 					}
 				}
 				finAction = true;
@@ -527,11 +530,15 @@ public class Fourmi {
 			case IS_HOME:
 				if (!A.isFeuille()) {
 					if (m.estFourmiliere(positionX, positionY) && getCarrying()) {
+						if (A.getSousArbreGauche() != null) {
 						A = A.getSousArbreGauche();
 						continue;
+						}
 					} else {
+						if (A.getSousArbreDroit() != null) {
 						A = A.getSousArbreDroit();
 						continue;
+						}
 					}
 				} else
 					finAction = true;
