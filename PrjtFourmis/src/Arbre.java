@@ -1,5 +1,7 @@
+import java.io.BufferedReader;
+import java.io.IOException;
 
-public class Arbre { 
+public class Arbre {
 	/**
 	 * Chaque noeud de l'arbre est un objet de type comportement.
 	 * 
@@ -60,8 +62,36 @@ public class Arbre {
 			this.fd= new Arbre(rate);// /2
 		}
 	}
-	
 
+	/**
+	 * Fonction récursive permettant de télécharger un arbre à partir de sa conversion en chaîne de caractères
+	 * @param indent Une chaine de caractères constituée d'espaces, utilisée pour l'affichage de l'arbre.
+	 * @param lecteur BufferReader contenant l'arbre
+	 * @param lineN Première ligne du BufferReader
+	 */
+	public Arbre(String indent, BufferedReader lecteur, String lineN){
+		lineN = lineN.split("-")[1];
+		this.valeur = Comportements.valueOf(lineN);
+		indent += "  ";
+		String lineK = "";
+		try {
+			lecteur.mark(0);
+			lineK = lecteur.readLine();
+			if( lineK != null ) {
+				if (lineK.indexOf(indent) == -1) {
+					indent = indent.substring(0, indent.length() - 2);
+				} else {
+					this.setSousArbreGauche(new Arbre(indent, lecteur, lineK));
+					lecteur.reset();
+					lineK = lecteur.readLine();
+					this.setSousArbreDroite(new Arbre(indent, lecteur, lineK));
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(0);
+		}
+	}
 
 	//Get
 	
@@ -250,18 +280,18 @@ public class Arbre {
     /**
      * Fonction (récursive) appelée par toString() qui met chaque noeud dans une chaine de caractère afin d'afficher l'arbre comme vu sur la méthode citée précédemment.
      * 
-     * @param indent Une chaine de caractères utilisée pour l'affichage de l'arbre.
+     * @param indent Une chaine de caractères constituée d'espaces, utilisée pour l'affichage de l'arbre.
      * @return Une chaine de caractères permettant d'afficher l'arbre.
      * @see Arbre#toString()
      */
     public String toString (String indent) {
         if (this.fg == null && this.fd == null) {
-            return indent + this.valeur;
+            return "-"+this.valeur;
         }
 
-        return indent + this.valeur
-        + "\n" + indent + "-  " + this.fg.toString(indent + "  ")
-        + "\n" + indent + "-  " + this.fd.toString(indent + "  ");
+        return "-"+this.valeur
+        + "\n" + indent + "  " + this.fg.toString(indent + "  ")
+        + "\n"  + indent  + "  " + this.fd.toString(indent + "  ");
     }
 
     //Comparer

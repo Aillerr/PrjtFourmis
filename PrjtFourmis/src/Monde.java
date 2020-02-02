@@ -20,8 +20,6 @@ public class Monde {
 	 * @param taille Taille du monde (carré)
 	 * @param nbNourriture Nombre de cases Nourriture
 	 * @param nbFourmilliere Nombre de cases Fourmilière
-	 * @param nbAction Nombre d'actions pour les fourmis
-	 * @see Monde#nbAction
 	 * @see Monde#nbFourmilliere
 	 * @see Monde#nbNourriture
 	 * @see Monde#taille
@@ -43,7 +41,6 @@ public class Monde {
 	 * Constructeur par copie afin de garder le monde sur lequel une fourmi joue
 	 * 
 	 * @param m Le monde copié
-	 * @see Monde#nbAction
 	 * @see Monde#nbFourmilliere
 	 * @see Monde#nbNourriture
 	 * @see Monde#taille
@@ -64,7 +61,6 @@ public class Monde {
 	/**
 	 * Construit un monde vide avec des valeurs nulles pour les paramètres, d'une taille précisée
 	 * @param taille La taille du monde
-	 * @see Monde#nbAction
 	 * @see Monde#nbFourmilliere
 	 * @see Monde#nbNourriture
 	 * @see Monde#taille
@@ -82,21 +78,19 @@ public class Monde {
 	}
 
 	/**
-	 * Génération d'un nouveau monde à partir d'un fichier
-	 * 
-	 * @param
-	 * @throws IOException
+	 * Génération d'un Monde à partir d'une sauvegarde dans un fichier
+	 * @param filepath chermin du fichier
 	 */
-	public Monde(String fichier) {
+	public Monde(String filepath) {
 		BufferedReader lecteur = null;
 		try {
-			lecteur = new BufferedReader(new FileReader(fichier));
+			lecteur = new BufferedReader(new FileReader(filepath));
 			String line = lecteur.readLine();
 			taille = line.length() / 8;
 			Monde m = new Monde(taille);
-			for (int y = 2; y <= taille * 2 + 1; y++) {
+			for (int y = 2; y <= taille * 2 + 1; y++) { //y correspond au numéro de la ligne en lecture
 				line = lecteur.readLine();
-				if (y % 2 == 0) {
+				if (y % 2 == 0) {//On ne récupère pas les lignes composé de tirets
 					int row = y / 2 - 1;
 					line = line.substring(4, line.length() - 4);
 					String[] line_spl = line.split("\\s{3}\\|\\s{3}"); // Split (" | ")
@@ -118,8 +112,6 @@ public class Monde {
 				}
 			}
 			this.tab = m.tab;
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -237,6 +229,12 @@ public class Monde {
 		}
 	}
 
+	/**
+	 * La fonction download télécharge le monde dans un fichier texte
+	 * @param path Un dossier permettant la sauvegarde
+	 * @param filename Le nom du fichier (sans extension)
+	 * @see Monde
+	 */
 	public void download(String path, String filename) {
 		PrintWriter writer = null;
 		try {
@@ -259,8 +257,7 @@ public class Monde {
 					if (tab[row][col].getValue() == 'F')
 						writer.print('F');
 					else if (tab[row][col].getValue() == 'N') {
-						Nourriture nour_case = (Nourriture) tab[row][col]; // downcast pour récupérer le nombre de
-																			// nourriture sur la case;
+						Nourriture nour_case = (Nourriture) tab[row][col]; // downcast pour récupérer le nombre de nourriture sur la case;
 						writer.print(nour_case.getQuantite());
 					}
 				} else

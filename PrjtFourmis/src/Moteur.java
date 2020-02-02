@@ -1,3 +1,5 @@
+import java.io.*;
+import java.util.ArrayList;
 
 public class Moteur {
 	private Monde m;
@@ -39,6 +41,35 @@ public class Moteur {
 			if (tab[j].getScore() != 0) {
 			System.out.println(tab[j]);
 		}
+		}
+	}
+
+	/**
+	 * Charge toutes les fourmis sauvegarder dans un fichier texte, met à jour les paramètres du moteur.
+	 * @param filepath Le chemin du fichier
+	 */
+	public void loadFourmis(String filepath){
+		BufferedReader lecteur;
+		try {
+			lecteur = new BufferedReader(new FileReader(filepath));
+			String line;
+			nbFourmi = 0;
+			ArrayList<Fourmi> listFourmi = new ArrayList<Fourmi>();
+			while((line = lecteur.readLine()) != null){
+				String fourmistr = line+"\n";
+				while (!(line = lecteur.readLine()).equals("")) {
+					fourmistr += line +"\n";
+				}
+				BufferedReader lecteurFourmi = new BufferedReader(new StringReader(fourmistr+"\n"));
+				listFourmi.add(new Fourmi(lecteurFourmi));
+				nbFourmi++;
+			}
+			tabFourmi = new Fourmi[nbFourmi];
+			for (int i =0; i<nbFourmi; i++){
+				tabFourmi[i] = listFourmi.get(i);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 

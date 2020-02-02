@@ -121,6 +121,39 @@ public class Fourmi {
 		this.comport = A;
 	}
 
+	/**
+	 * Constructeur d'une fourmi à partir de sa sauvegarde.
+	 * @param lecteur Le buffer comprenant les lignes de la fourmi.
+	 */
+	public Fourmi(BufferedReader lecteur){
+		try {
+			String line = lecteur.readLine();
+			line = lecteur.readLine();
+			String[] attributs = line.split("\\s\\|\\s");
+			String [] val = new String [4];
+			for (int i =0; i<val.length; i++) {
+				val[i] = attributs[i].split("\\s:\\s")[1];
+			}
+			score = Integer.parseInt(val[0]);
+			numGeneration = Integer.parseInt(val[1]);
+			val[2] = val[2].replace("(","").replace(")","");
+			String position[] = val[2].split(",");
+			positionX = Integer.parseInt(position[0]);
+			positionY = Integer.parseInt(position[1]);
+			isCarrying = Boolean.parseBoolean(val[3]);
+			String arbrestr = "";
+			while(!(line = lecteur.readLine()).equals("")){
+				arbrestr += line;
+				arbrestr += "\n";
+			}
+			BufferedReader lecteurArbre = new BufferedReader(new StringReader(arbrestr));
+			comport = new Arbre("", lecteurArbre, lecteurArbre.readLine());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
 	// Get
 
 	/**
@@ -512,6 +545,7 @@ public class Fourmi {
 		return (new Fourmi(f.getNumGeneration() + 1, arb));
 	}
 
+
 	/**
 	 * La fonction toString renvoie le score et la position sur le monde de la fourmi.
 	 * 
@@ -522,11 +556,18 @@ public class Fourmi {
 				+ " Position Y : " + getPositionY());
 	}
 
+	/**
+	 * La fonction download sauvegarde les attribues de la fourmie dans un fichier text, si le fichier contient déjà des lignes de texte écrit à la suite
+	 * @param path Un dossier permettant la sauvegarde
+	 * @param filename Le nom du fichier (sans extension)
+	 */
 	public void download(String path, String filename){
 		try {
 			PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(path + "\\" + filename + ".txt", true)));
+			writer.println("---------------------------------------------------------------------");
 			writer.println("score : "+score+" | N° de la génération : "+numGeneration+" | Position : ("+positionX+","+positionY+") | Nourriture ? : "+isCarrying+" | Arbre : ");
 			writer.println(comport.toString());
+			writer.println();
 			writer.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
