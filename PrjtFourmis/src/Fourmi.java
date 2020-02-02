@@ -153,9 +153,36 @@ public class Fourmi {
 		}
 
 	}
+	
+	/**
+	 * Constructeur par copie d'une fourmi.
+	 * 
+	 * @param f
+	 * Une fourmi
+	 * 
+	 */
+	
+	public Fourmi (Fourmi f) {
+		this.score = f.getScore();
+		this.numGeneration = f.getNumGeneration();
+		this.isCarrying = f.getCarrying();
+		this.positionX = f.getPositionX();
+		this.positionY = f.getPositionY();
+		this.comport = f.getArbre();
+	}
 
 	// Get
 
+	/**
+	 * Retourne l'arbre de la fourmi
+	 * 
+	 * @return Un arbre
+	 */
+	
+		public Arbre getArbre() {
+			return this.comport;
+		}
+		
 	/**
 	 * Retourne le numéro de génération
 	 * 
