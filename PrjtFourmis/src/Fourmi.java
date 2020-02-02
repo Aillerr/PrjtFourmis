@@ -555,7 +555,6 @@ public class Fourmi {
 	 */
 	public Fourmi Croisement(Fourmi f) {
 		Arbre arb = f.getComport(), source = this.comport;
-
 		int rnd = (int) (Math.random() * 4);
 
 		if (rnd >= 2) { // Si 0 ou 1 on prend le comportement de la fourmi en paramètre, sinon l'autre
@@ -569,7 +568,7 @@ public class Fourmi {
 		else
 			arb.setSousArbreDroite(source.getSousArbreDroit()); // Sinon le fils droit
 
-		return (new Fourmi(f.getNumGeneration() + 1, arb));
+		return (new Fourmi(f.getNumGeneration(), arb));
 	}
 
 
@@ -590,6 +589,8 @@ public class Fourmi {
 	 */
 	public void download(String path, String filename){
 		try {
+			File fichier = new File(path + "\\" + filename + ".txt");
+			fichier.delete();
 			PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(path + "\\" + filename + ".txt", true)));
 			writer.println("---------------------------------------------------------------------");
 			writer.println("score : "+score+" | N° de la génération : "+numGeneration+" | Position : ("+positionX+","+positionY+") | Nourriture ? : "+isCarrying+" | Arbre : ");

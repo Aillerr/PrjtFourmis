@@ -18,11 +18,6 @@ public class Moteur {
 	}
 
 	public void boucleJeu() {
-
-		// Arbre a = new Arbre(Comportements.IS_FOOD, new Arbre(Comportements.RECOLT),
-		// new Arbre(Comportements.IS_HOME, new Arbre(Comportements.DEPOSE), new
-		// Arbre(Comportements.GO_HOME, new Arbre(Comportements.GO), new
-		// Arbre(Comportements.GO))));
 		Fourmi tab[] = new Fourmi[nbFourmi];
 		int somme = 0;
 		for (int i = 0; i < generation; i++) {
@@ -56,9 +51,11 @@ public class Moteur {
 			triInsertion(tabFourmi);
 			inverse(tabFourmi);
 			int compteur = 0;
+			String chemin = "generation" + (i+1);
 			for (int k = 0; k < nbFourmiGarde * 2; k = k + 2) {
 				if (tabFourmi[k] != null && tabFourmi[k+1] != null) {
 				tabGene[i][compteur] = new Fourmi(tabFourmi[k].Croisement(tabFourmi[k + 1]));
+				tabGene[i][compteur].download(chemin, "Fourmi" + (compteur+1));
 				compteur++;
 				}
 			}
